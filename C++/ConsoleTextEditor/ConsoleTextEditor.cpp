@@ -1,13 +1,18 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include <atlstr.h>
-#include <atlconv.h>
 #include <Windows.h>
 #include <conio.h>
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <vector>
+#include <map>
 
+
+std::string VERSION = "1.0";
+std::map<std::string, bool> SETTINGS = { { "Confirmation of action", false }, { "Syntax highlighting", false }};
+std::vector<std::string> WORDS_BLUE = { "using", "namespace", "int", "bool", "char", "unsigned", "if", "else", "auto", "return", "while", "for", "void", "do", "break", "try", "throw", "catch", "default", "switch", "case", "sizeof", "const", "true", "false", "nullptr", "string", "vector", "map", "HANDLE", "size_type", "COORD", "WORD", "deque", "queue", "#include", "#define", "#ifndef", "#endif", "#pragma once" }; //11
+std::map<int, std::string> coordColor;
 
 HANDLE hConsole = GetStdHandle(STD_OUTPUT_HANDLE);
 COORD position = { 0, 0 };
@@ -16,23 +21,56 @@ std::vector<unsigned int> lineSize;
 std::vector <unsigned int>::iterator it;
 std::vector<std::string> inFile;
 std::vector <std::string>::iterator itStr;
-/*CONSOLE_SCREEN_BUFFER_INFO SCRN_INFO;
-GetConsoleScreenBufferInfo(hConsole, &SCRN_INFO);
-position.X = SCRN_INFO.dwCursorPosition.X;
-position.Y = SCRN_INFO.dwCursorPosition.Y;*/
 
 
-//Функция для получения текущей директории.
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РІС‹РІРѕРґР° С†РІРµС‚РЅС‹С… СЃРёРјРІРѕР»РѕРІ.
+void output(char symbol, int color, int color1 = 0)
+{
+	SetConsoleTextAttribute(hConsole, (WORD)(color1 << 4 | color));
+	putchar(symbol);
+	SetConsoleTextAttribute(hConsole, (WORD)(color1 << 4 | 15));
+}
+
+//Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ С‚РµРєСѓС‰РµР№ РґРёСЂРµРєС‚РѕСЂРёРё.
 std::string exePath() 
 {
 	char buffer[MAX_PATH];
-	GetModuleFileName(NULL, buffer, MAX_PATH);
+	GetModuleFileNameA(NULL, buffer, MAX_PATH);
 	std::string::size_type pos = std::string(buffer).find_last_of("\\/");
 	return std::string(buffer).substr(0, pos);
 }
 
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕРёСЃРєР° СЃР»РѕРІ Рё СЂР°СЃРєСЂР°С€РёРІР°РЅРёСЏ РёС… РІ РїРѕР»Рµ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ.
+void paintKeyWords(unsigned int numChangeLine)
+{
+	coordColor.clear();
+	for (unsigned int i = 0; i < WORDS_BLUE.size(); i++) {
+		int pos = inFile[numChangeLine].find(WORDS_BLUE[i]);
+		if (pos != -1) {
+			coordColor.insert((std::pair<int, std::string>(pos, WORDS_BLUE[i])));
+			//std::cout << inFile[numChangeLine].substr(0, pos);
+			//for (unsigned int j = 0; j < WORDS_BLUE[i].length(); j++)
+				//output(WORDS_BLUE[i][j], 11);
+			//std::cout << inFile[numChangeLine].substr(pos + WORDS_BLUE[i].length(), inFile[numChangeLine].length() - 1) << std::endl;
+		}
+	}
+	if (coordColor.empty())
+		std::cout << inFile[numChangeLine] << std::endl;
+	else {
+		int last = 0;
+		for (auto it = coordColor.begin(); it != coordColor.end(); ++it) {
+			for (int i = last; i < it->first; i++)
+				putchar(inFile[numChangeLine][i]);
+			//std::cout << inFile[numChangeLine].substr(last, it->first);
+			for (unsigned int j = 0; j < it->second.length(); j++)
+				output(it->second[j], 11);
+			last = it->first + it->second.length();
+		}
+		std::cout << inFile[numChangeLine].substr(last, inFile[numChangeLine].length() - 1) << std::endl;
+	}
+}
 
-// Функция проверки правильности вода чисел.
+// Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё РІРѕРґР° С‡РёСЃРµР».
 int inputStrToInt(std::string mes, int command)
 {
 	std::string str;
@@ -66,7 +104,7 @@ int inputStrToInt(std::string mes, int command)
 				case 0:
 					break;
 				case 1:
-					if ((result < 0) || (result > 4))
+					if ((result < 0) || (result > 9))
 						throw 1;
 					break;
 				case 2:
@@ -84,21 +122,98 @@ int inputStrToInt(std::string mes, int command)
 	return 0;
 }
 
-// Вывод меню.
+// Р¤СѓРЅРєС†РёСЏ Р±РµР·РѕРїР°СЃС‚РЅРѕРіРѕ РїРµСЂРµРІРѕРґР° string РІ int.
+int strToInt(std::string str, int command)
+{
+	int minus = 0, result = 0;
+	bool check = true, flag = true;
+	while (flag) {
+		minus = 0; result = 0;
+		check = true;
+		for (unsigned int i = 0; i < str.size(); i++) {
+			if (((str[i] < '0') | (str[i] > '9')) & (str[0] != '-')) {
+				check = false;
+				break;
+			}
+			if (str[i] == '-') {
+				minus++;
+				if (minus > 1) {
+					check = false;
+					break;
+				}
+			}
+		}
+		if (check == false)
+			return -1;
+		else {
+			try {
+				result = std::stoi(str);
+				switch (command) {
+				case 0:
+					break;
+				case 1:
+					if ((result < 0) || (result > 9))
+						throw 1;
+					break;
+				case 2:
+					if (result <= 0)
+						throw 2;
+					break;
+				}
+				return result;
+			}
+			catch (...) {
+				return -1;
+			}
+		}
+	}
+	return 0;
+}
+
+// Р’С‹РІРѕРґ РјРµРЅСЋ.
 void outMenu()
 {
-	std::cout << "ConsoleTextEditor by Vasar v 0.5\n" << std::endl;
+	std::cout << "ConsoleTextEditor by Vasar v " + VERSION + '\n' << std::endl;
 	std::cout << "1) Create new file" << std::endl;
 	std::cout << "2) Read from file" << std::endl;
 	std::cout << "3) Save to file" << std::endl;
 	std::cout << "4) Show edit field\n" << std::endl;
 	std::cout << "5) Compile your C++ file" << std::endl;
-	std::cout << "6) Compile your Python file\n" << std::endl;
+	std::cout << "6) Run your Python file" << std::endl;
 	std::cout << "7) Start implementation of Python\n" << std::endl;
+	std::cout << "8) Settings" << std::endl;
+	std::cout << "9) About program" << std::endl;
 	std::cout << "0) Exit\n" << std::endl;
 }
 
-// Функция, убирающая из строки пустые символы '\0'.
+// Р’С‹РІРѕРґ СЂР°Р·РґРµР»Р° РЅР°СЃС‚СЂРѕРµРє РїСЂРѕРіСЂР°РјРјС‹.
+void outSettings()
+{
+	std::cout << "ConsoleTextEditor by Vasar v " + VERSION + '\n' << std::endl;
+	for (auto it = SETTINGS.begin(); it != SETTINGS.end(); ++it)
+		std::cout << it->first << " = " << it->second << std::endl;
+	std::cout << std::endl;
+	std::cout << "1) Change settings" << std::endl;
+	std::cout << "2) Load settings from file" << std::endl;
+	std::cout << "3) Save settings to file\n" << std::endl;
+	std::cout << "0) Return to menu\n" << std::endl;
+}
+
+// Р’С‹РІРѕРґ СЂР°Р·РґРµР»Р° "Рћ РїСЂРѕРіСЂР°РјРјРµ".
+void outAbout()
+{
+	std::cout << "ConsoleTextEditor by Vasar v " + VERSION + '\n' << std::endl;
+	std::cout << "---------------------------------------------------------------------------------" << std::endl;
+	std::cout << "| Name of the program: ConsoleTextEditor (CTE)                                  |" << std::endl;
+	std::cout << "| Release date: 23.12.2016                                                      |" << std::endl;
+	std::cout << "| Version of the program: " + VERSION + "                                                   |" << std::endl;
+	std::cout << "| Developer of the program: Vasily 'Vasar' Vasilyev                             |" << std::endl;
+	std::cout << "| You can send your comments and suggestions to the e-mail Vasar007@yandex.ru   |" << std::endl;
+	std::cout << "| (В©) Copyright - All rights reserved, V. V. Vasilyev, 2017                     |" << std::endl;
+	std::cout << "---------------------------------------------------------------------------------" << std::endl << std::endl;
+}
+
+// Р¤СѓРЅРєС†РёСЏ, СѓР±РёСЂР°СЋС‰Р°СЏ РёР· СЃС‚СЂРѕРєРё РїСѓСЃС‚С‹Рµ СЃРёРјРІРѕР»С‹ '\0'.
 void zip(std::string &str)
 {
 	std::string temp = str;
@@ -111,7 +226,7 @@ void zip(std::string &str)
 	str = temp.substr(0, k);
 }
 
-// Функция для обработки нажатий в консоли.
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё РЅР°Р¶Р°С‚РёР№ РІ РєРѕРЅСЃРѕР»Рё.
 void consoleDelay()
 {
 	bool flag = true;
@@ -120,11 +235,11 @@ void consoleDelay()
 	while (flag) {
 		int ch = _getch();
 		switch (ch) {
-		// Нажатие клавиш-стрелок, перемещение каретки по консоли.
+		// РќР°Р¶Р°С‚РёРµ РєР»Р°РІРёС€-СЃС‚СЂРµР»РѕРє, РїРµСЂРµРјРµС‰РµРЅРёРµ РєР°СЂРµС‚РєРё РїРѕ РєРѕРЅСЃРѕР»Рё.
 		case 224: {
 			int sym = _getch();
 			switch (sym) {
-			// Нажата клавиша вверх.
+			// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° РІРІРµСЂС….
 			case 72: {
 				if (position.Y > 0) {
 					position.Y--;
@@ -134,7 +249,7 @@ void consoleDelay()
 				}
 				break;
 			}
-			// Нажата клавиша вниз.
+			// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° РІРЅРёР·.
 			case 80: {
 				if (position.Y < line - 1) {
 					position.Y++;
@@ -144,7 +259,7 @@ void consoleDelay()
 				}
 				break;
 			}
-			// Нажата клавиша влево.
+			// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° РІР»РµРІРѕ.
 			case 75: {
 				if (position.X > 0)
 					position.X--;
@@ -155,7 +270,7 @@ void consoleDelay()
 				SetConsoleCursorPosition(hConsole, position);
 				break;
 			}
-			// Нажата клавиша вправо.
+			// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° РІРїСЂР°РІРѕ.
 			case 77: {
 				if (position.X < lineSize[position.Y])
 					position.X++;
@@ -167,12 +282,11 @@ void consoleDelay()
 				break;
 			}
 			default: {
-
 				break;
 			}}
 			break;
 		}
-		// Нажата клавиша Enter.
+		// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° Enter.
 		case 13: {
 			std::string temped = inFile[position.Y].substr(position.X, inFile[position.Y].length());
 			inFile[position.Y].erase(position.X, inFile[position.Y].length());
@@ -185,17 +299,23 @@ void consoleDelay()
 			position.Y++;
 			line++;
 			system("cls");
-			for (unsigned int i = 0; i < inFile.size(); i++)
-				std::cout << inFile[i] << std::endl;
+			auto it = SETTINGS.begin();
+			++it;
+			if (it->second)
+				for (unsigned int i = 0; i < inFile.size(); i++)
+					paintKeyWords(i);
+			else
+				for (unsigned int i = 0; i < inFile.size(); i++)
+					std::cout << inFile[i] << std::endl;
 			SetConsoleCursorPosition(hConsole, position);
 			break;
 		}
-		// Нажата клавиша Esc.
+		// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° Esc.
 		case 27: {
 			flag = false;
 			break;
 		}
-		// Нажата клавиша Backspace.
+		// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° Backspace.
 		case 8: {
 			if ((position.X > 0) && (lineSize[position.Y] > 0)) {
 				lineSize[position.Y]--;
@@ -221,12 +341,18 @@ void consoleDelay()
 				line--;
 			}
 			system("cls");
-			for (unsigned int i = 0; i < inFile.size(); i++)
-				std::cout << inFile[i] << std::endl;
+			auto it = SETTINGS.begin();
+			++it;
+			if (it->second)
+				for (unsigned int i = 0; i < inFile.size(); i++)
+					paintKeyWords(i);
+			else
+				for (unsigned int i = 0; i < inFile.size(); i++)
+					std::cout << inFile[i] << std::endl;
 			SetConsoleCursorPosition(hConsole, position);
 			break;
 		}
-		// Нажата клавиша Tab.
+		// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° Tab.
 		case 9: {
 			std::string temped;
 			ch = 32;
@@ -235,7 +361,7 @@ void consoleDelay()
 			lineSize[position.Y]++;
 			position.X++;
 		}
-		// Нажата клавиша Space.
+		// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° Space.
 		case 32: {
 			std::string temped;
 			temped = (char)ch;
@@ -243,12 +369,18 @@ void consoleDelay()
 			lineSize[position.Y]++;
 			position.X++;
 			system("cls");
-			for (unsigned int i = 0; i < inFile.size(); i++)
-				std::cout << inFile[i] << std::endl;
+			auto it = SETTINGS.begin();
+			++it;
+			if (it->second)
+				for (unsigned int i = 0; i < inFile.size(); i++)
+					paintKeyWords(i);
+			else
+				for (unsigned int i = 0; i < inFile.size(); i++)
+					std::cout << inFile[i] << std::endl;
 			SetConsoleCursorPosition(hConsole, position);
 			break;
 		}
-		// Нажата любая другая клавиша.
+		// РќР°Р¶Р°С‚Р° Р»СЋР±Р°СЏ РґСЂСѓРіР°СЏ РєР»Р°РІРёС€Р°.
 		default: {
 			std::string temped;
 			temped = (char)ch;
@@ -256,14 +388,27 @@ void consoleDelay()
 			lineSize[position.Y]++;
 			position.X++;
 			system("cls");
-			for (unsigned int i = 0; i < inFile.size(); i++)
-				std::cout << inFile[i] << std::endl;
+			auto it = SETTINGS.begin();
+			++it;
+			if (it->second)
+				for (unsigned int i = 0; i < inFile.size(); i++)
+					paintKeyWords(i);
+			else
+				for (unsigned int i = 0; i < inFile.size(); i++)
+					std::cout << inFile[i] << std::endl;
+			//for (unsigned int i = 0; i < position.Y; i++)
+			//	std::cout << inFile[i] << std::endl;
+			//paintKeyWords(position.Y);
+			//if (position.Y < line - 1)
+			//	for (unsigned int i = position.Y + 1; i < inFile.size(); i++)
+			//		std::cout << inFile[i] << std::endl;
 			SetConsoleCursorPosition(hConsole, position);
 			break;
 		}}
 	}
 }
 
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ С‚РµРєСЃС‚Р° РїСЂРё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ С„Р°Р№Р»Р°.
 void saveUnsavedText()
 {
 	std::string outputfile;
@@ -281,41 +426,83 @@ void saveUnsavedText()
 			std::ofstream output(outputfile);	//output data file
 			for (unsigned int i = 0; i < inFile.size(); i++)
 				output << inFile[i] << std::endl;
-			std::cout << "Text from edit field was successfully saved!\n";
+			std::cout << "Text from edit field was successfully saved.\n";
 		}
 		else
-			std::cout << "Text from edit field was cleared\n";
+			std::cout << "Text from edit field was cleared.\n";
 		inFile.clear();
 		system("pause");
 		system("cls");
 	}
 }
 
+void readConfig(std::string configname)
+{
+	std::ifstream inputSet(configname);	//config file
+	auto it = SETTINGS.begin();
+	if ((inputSet.is_open()) && (it != SETTINGS.end()))
+		std::cout << "Config-file was read." << std::endl;
+		while ((!inputSet.eof()) && (it != SETTINGS.end())) {
+			std::string temp;
+			std::getline(inputSet, temp);
+			int pos = temp.find(it->first);
+			if (pos != -1) {
+				int pos2 = temp.find("=");
+				if (pos2 != -1) {
+					std::string value = temp.substr(pos2 + 2, temp.length() - 1);
+					if (value == "1")
+						it->second = true;
+					else if (value == "0")
+						it->second = false;
+				}
+			}
+			++it;
+		}
+}
+
+void saveConfig(std::string configname)
+{
+	std::ofstream outputSet(configname);	//config file
+	for (auto it = SETTINGS.begin(); it != SETTINGS.end(); ++it)
+		outputSet << it->first << " = " << it->second << std::endl;
+	std::cout << "File was successfully saved." << std::endl;
+}
+
 int main()
 {
-	std::string inputfile, outputfile;
+	std::string inputfile, outputfile, configname = "configCTE.ini";
+	
 	int command;
 	bool flag = true;
+	
 	setlocale(LC_ALL, "Russian");
+	readConfig(configname);
 	while (flag) {
 		system("cls");
 		outMenu();
 		command = inputStrToInt("Enter your command: ", 0);
 		switch (command) {
-		// Выход из программы.
-		case 0:
+		// Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹.
+		case 0: {
 			system("cls");
-			saveUnsavedText();
+			auto it = SETTINGS.find("Confirmation of action");
+			if (it != SETTINGS.end())
+				if (it->second)
+					saveUnsavedText();
 			std::cout << "Goodbye, human!" << std::endl;
 			system("pause");
 			flag = false;
 			break;
-		// Создание нового рабочего поля.
+		}
+		// РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕРіРѕ СЂР°Р±РѕС‡РµРіРѕ РїРѕР»СЏ.
 		case 1: {
 			std::cin.sync();
 			std::cin.clear();
 			system("cls");
-			saveUnsavedText();
+			auto it = SETTINGS.find("Confirmation of action");
+			if (it != SETTINGS.end())
+				if (it->second)
+					saveUnsavedText();
 			line = 1;
 			lineSize.clear();
 			lineSize.push_back(0);
@@ -328,7 +515,7 @@ int main()
 					tempOut << inFile[i] << std::endl;
 			break;
 		}
-		// Загрузка файла в поле редактирования.
+		// Р—Р°РіСЂСѓР·РєР° С„Р°Р№Р»Р° РІ РїРѕР»Рµ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ.
 		case 2: {
 			system("cls");
 			std::cout << "Input file name (example.txt) [enter 0 for return]: ";
@@ -342,7 +529,7 @@ int main()
 				break;
 			}
 			else {
-				std::cout << "File was loading!\n";
+				std::cout << "File was loading.\n";
 				system("pause");
 			}
 			std::cin.sync();
@@ -359,11 +546,19 @@ int main()
 					temp.replace(pos, 1, "  ");
 					pos = temp.find('\t');
 				}
-				std::cout << temp << std::endl;
+				//std::cout << temp << std::endl;
 				line++;
 				lineSize.push_back(temp.length());
 				inFile.push_back(temp);
 			}
+			auto it = SETTINGS.begin();
+			++it;
+			if (it->second)
+				for (unsigned int i = 0; i < inFile.size(); i++)
+					paintKeyWords(i);
+			else
+				for (unsigned int i = 0; i < inFile.size(); i++)
+					std::cout << inFile[i] << std::endl;
 			consoleDelay();
 			std::ofstream tempOut("ConsoleTextEditorTemp.txt");	//output temp file
 			if (!inFile.empty())
@@ -371,7 +566,7 @@ int main()
 					tempOut << inFile[i] << std::endl;
 			break;
 		}
-		// Сохранение файла из рабочего поля.
+		// РЎРѕС…СЂР°РЅРµРЅРёРµ С„Р°Р№Р»Р° РёР· СЂР°Р±РѕС‡РµРіРѕ РїРѕР»СЏ.
 		case 3: {
 			system("cls");
 			if (!inFile.empty()) {
@@ -382,19 +577,25 @@ int main()
 				std::ofstream output(outputfile);	//output data file
 				for (unsigned int i = 0; i < inFile.size(); i++)
 					output << inFile[i] << std::endl;
-				std::cout << "Text from edit field was successfully saved!\n";
+				std::cout << "Text from edit field was successfully saved.\n";
 			}
 			else
 				std::cout << "Edit field is empty!\n";
 			system("pause");
 			break;
 		}
-		// Вывод рабочего поля.
+		// Р’С‹РІРѕРґ СЂР°Р±РѕС‡РµРіРѕ РїРѕР»СЏ.
 		case 4: {
 			system("cls");
 			if (!inFile.empty()) {
-				for (unsigned int i = 0; i < inFile.size(); i++)
-					std::cout << inFile[i] << std::endl;
+				auto it = SETTINGS.begin();
+				++it;
+				if (it->second)
+					for (unsigned int i = 0; i < inFile.size(); i++)
+						paintKeyWords(i);
+				else
+					for (unsigned int i = 0; i < inFile.size(); i++)
+						std::cout << inFile[i] << std::endl;
 				consoleDelay();
 			}
 			else {
@@ -403,7 +604,7 @@ int main()
 			}
 			break;
 		}
-		// Запуск компилятора C++.
+		// Р—Р°РїСѓСЃРє РєРѕРјРїРёР»СЏС‚РѕСЂР° C++.
 		case 5: {
 			system("cls");
 			std::string path;
@@ -422,7 +623,7 @@ int main()
 			system("pause");
 			break;
 		}
-		// Запуск компилятора Python.
+		// Р—Р°РїСѓСЃРє РєРѕРјРїРёР»СЏС‚РѕСЂР° Python.
 		case 6: {
 			system("cls");
 			std::string path, pyFile;
@@ -430,7 +631,7 @@ int main()
 			const char *temp_c;
 			temp_c = path.c_str();
 			system(temp_c);
-			std::cout << "File name (example.py) [enter 0 for return]: ";
+			std::cout << "Enter file name of python program (example.py) [enter 0 for return]: ";
 			std::getline(std::cin, pyFile);
 			if (pyFile == "0")
 				break;
@@ -441,7 +642,7 @@ int main()
 			system("pause");
 			break;
 		}
-		// Запуск интерпретатора Python.
+		// Р—Р°РїСѓСЃРє РёРЅС‚РµСЂРїСЂРµС‚Р°С‚РѕСЂР° Python.
 		case 7: {
 			system("cls");
 			std::string path, pyFile;
@@ -453,9 +654,78 @@ int main()
 			system("start py");
 			system("pause");
 			break;
+		}
+		// РћС‚РєСЂС‹С‚РёРµ СЂР°Р·РґРµР»Р° РЅР°СЃС‚СЂРѕРµРє РїСЂРѕРіСЂР°РјРјС‹.
+		case 8: {
+			bool flagSet = true;
+			while (flagSet) {
+				system("cls");
+				outSettings();
+				int commandSet = inputStrToInt("Enter your command: ", 0);
+				switch (commandSet) {
+				// Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ.
+				case 0: {
+					flagSet = false;
+					break;
+				}
+				// РР·РјРµРЅРµРЅРёРµ РєР°РєРѕР№-Р»РёР±Рѕ РЅР°СЃС‚СЂРѕР№РєРё.
+				case 1: {
+					std::string changeSet;
+					std::cout << "Enter number of setting and new value (0 or 1), for example: '2=0' [enter 0 for return]: ";
+					std::getline(std::cin, changeSet);
+					if (changeSet == "0")
+						break;
+					int pos = changeSet.find("=");
+					std::string numSet = changeSet.substr(0, pos);
+					std::string newSet = changeSet.substr(pos + 1, changeSet.length() - 1);
+					int numberSet = strToInt(numSet, 0) - 1;
+					int newerSet = strToInt(newSet, 0);
+					auto it = SETTINGS.begin();
+					for (it = SETTINGS.begin(); ((it != SETTINGS.end()) && (numberSet > 0)); ++it)
+						numberSet--;
+					if (it != SETTINGS.end())
+						if (newerSet == 1)
+							it->second = true;
+						else if (newerSet == 0)
+							it->second = false;
+					break;
+				}
+				// Р—Р°РіСЂСѓР·РєР° РЅР°СЃС‚СЂРѕРµРє РёР· С„Р°Р№Р»Р°.
+				case 2: {
+					system("cls");
+					std::string nameInSet;
+					std::cout << "Enter config-file name (configCTE.ini) [enter 0 for return]: ";
+					std::getline(std::cin, nameInSet);
+					if (nameInSet == "0")
+						break;
+					readConfig(nameInSet);
+					system("pause");
+					break;
+				}
+				// РЎРѕС…СЂР°РЅРµРЅРёРµ РЅР°СЃС‚СЂРѕРµРє РІ С„Р°Р№Р».
+				case 3: {
+					system("cls");
+					std::string nameOutSet;
+					std::cout << "Enter config-file name (configCTE.ini) [enter 0 for return]: ";
+					std::getline(std::cin, nameOutSet);
+					if (nameOutSet == "0")
+						break;
+					saveConfig(nameOutSet);
+					system("pause");
+					break;
+				}}
+			}
+			break;
+		}
+		// РћС‚РєСЂС‹С‚РёРµ СЂР°Р·РґРµР»Р° "Рћ РїСЂРѕРіСЂР°РјРјРµ".
+		case 9: {
+			system("cls");
+			outAbout();
+			system("pause");
+			break;
 		}}
 	}
-	// Удаление временных файлов.
+	// РЈРґР°Р»РµРЅРёРµ РІСЂРµРјРµРЅРЅС‹С… С„Р°Р№Р»РѕРІ.
 	system("del ConsoleTextEditorTemp.txt");
 	return 0;
 }
