@@ -1,2 +1,2 @@
 # SoftForAll
-There are some my own programs. © Copyright - All rights reserved, Vasily Vasilyev, 2017
+There are some my own programs. © Copyright - All rights reserved, V. V. Vasilyev, 2017
