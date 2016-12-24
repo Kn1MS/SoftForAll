@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include <atlstr.h>
 #include <Windows.h>
 #include <conio.h>
@@ -24,7 +24,7 @@ std::vector<std::string> inFile;
 std::vector <std::string>::iterator itStr;
 
 
-// Функция для вывода цветных символов.
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РІС‹РІРѕРґР° С†РІРµС‚РЅС‹С… СЃРёРјРІРѕР»РѕРІ.
 void output(char symbol, int color, int color1 = 0)
 {
 	SetConsoleTextAttribute(hConsole, (WORD)(color1 << 4 | color));
@@ -32,7 +32,7 @@ void output(char symbol, int color, int color1 = 0)
 	SetConsoleTextAttribute(hConsole, (WORD)(color1 << 4 | 15));
 }
 
-//Функция для получения текущей директории.
+//Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕР»СѓС‡РµРЅРёСЏ С‚РµРєСѓС‰РµР№ РґРёСЂРµРєС‚РѕСЂРёРё.
 std::string exePath() 
 {
 	char buffer[MAX_PATH];
@@ -41,7 +41,7 @@ std::string exePath()
 	return std::string(buffer).substr(0, pos);
 }
 
-// Функция для поиска слов и раскрашивания их в поле редактирования.
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕРёСЃРєР° СЃР»РѕРІ Рё СЂР°СЃРєСЂР°С€РёРІР°РЅРёСЏ РёС… РІ РїРѕР»Рµ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ.
 void paintKeyWords(unsigned int numChangeLine)
 {
 	coordColor.clear();
@@ -118,7 +118,7 @@ void paintKeyWords(unsigned int numChangeLine)
 	}
 }
 
-// Функция вывода редактируемого поля в консоль с учётом конфига настроек.
+// Р¤СѓРЅРєС†РёСЏ РІС‹РІРѕРґР° СЂРµРґР°РєС‚РёСЂСѓРµРјРѕРіРѕ РїРѕР»СЏ РІ РєРѕРЅСЃРѕР»СЊ СЃ СѓС‡С‘С‚РѕРј РєРѕРЅС„РёРіР° РЅР°СЃС‚СЂРѕРµРє.
 void consoleOut()
 {
 	if (!inFile.empty()) {
@@ -141,7 +141,7 @@ void consoleOut()
 	}
 }
 
-// Функция проверки правильности вода чисел.
+// Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё РІРѕРґР° С‡РёСЃРµР».
 int inputStrToInt(std::string mes, int command)
 {
 	std::string str;
@@ -193,7 +193,7 @@ int inputStrToInt(std::string mes, int command)
 	return 0;
 }
 
-// Функция безопастного перевода string в int.
+// Р¤СѓРЅРєС†РёСЏ Р±РµР·РѕРїР°СЃС‚РЅРѕРіРѕ РїРµСЂРµРІРѕРґР° string РІ int.
 int strToInt(std::string str, int command)
 {
 	int minus = 0, result = 0;
@@ -241,7 +241,7 @@ int strToInt(std::string str, int command)
 	return 0;
 }
 
-// Вывод меню.
+// Р’С‹РІРѕРґ РјРµРЅСЋ.
 void outMenu()
 {
 	std::cout << "ConsoleTextEditor by Vasar v " + VERSION + '\n' << std::endl;
@@ -257,7 +257,7 @@ void outMenu()
 	std::cout << "0) Exit\n" << std::endl;
 }
 
-// Вывод раздела настроек программы.
+// Р’С‹РІРѕРґ СЂР°Р·РґРµР»Р° РЅР°СЃС‚СЂРѕРµРє РїСЂРѕРіСЂР°РјРјС‹.
 void outSettings()
 {
 	std::cout << "ConsoleTextEditor by Vasar v " + VERSION + '\n' << std::endl;
@@ -270,7 +270,7 @@ void outSettings()
 	std::cout << "0) Return to menu\n" << std::endl;
 }
 
-// Вывод раздела "О программе".
+// Р’С‹РІРѕРґ СЂР°Р·РґРµР»Р° "Рћ РїСЂРѕРіСЂР°РјРјРµ".
 void outAbout()
 {
 	std::cout << "ConsoleTextEditor by Vasar v " + VERSION + '\n' << std::endl;
@@ -280,11 +280,11 @@ void outAbout()
 	std::cout << "| Version of the program: " + VERSION + "                                                   |" << std::endl;
 	std::cout << "| Developer of the program: Vasily 'Vasar' Vasilyev                             |" << std::endl;
 	std::cout << "| You can send your comments and suggestions to the e-mail Vasar007@yandex.ru   |" << std::endl;
-	std::cout << "| (©) Copyright - All rights reserved, V. V. Vasilyev, 2017                     |" << std::endl;
+	std::cout << "| (В©) Copyright - All rights reserved, V. V. Vasilyev, 2017                     |" << std::endl;
 	std::cout << "---------------------------------------------------------------------------------" << std::endl << std::endl;
 }
 
-// Функция, убирающая из строки пустые символы '\0'.
+// Р¤СѓРЅРєС†РёСЏ, СѓР±РёСЂР°СЋС‰Р°СЏ РёР· СЃС‚СЂРѕРєРё РїСѓСЃС‚С‹Рµ СЃРёРјРІРѕР»С‹ '\0'.
 void zip(std::string &str)
 {
 	std::string temp = str;
@@ -297,7 +297,7 @@ void zip(std::string &str)
 	str = temp.substr(0, k);
 }
 
-// Функция для обработки нажатий в консоли.
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё РЅР°Р¶Р°С‚РёР№ РІ РєРѕРЅСЃРѕР»Рё.
 void consoleDelay()
 {
 	bool flag = true;
@@ -306,11 +306,11 @@ void consoleDelay()
 	while (flag) {
 		int ch = _getch();
 		switch (ch) {
-			// Нажатие клавиш-стрелок, перемещение каретки по консоли.
+			// РќР°Р¶Р°С‚РёРµ РєР»Р°РІРёС€-СЃС‚СЂРµР»РѕРє, РїРµСЂРµРјРµС‰РµРЅРёРµ РєР°СЂРµС‚РєРё РїРѕ РєРѕРЅСЃРѕР»Рё.
 			case 224: {
 				int sym = _getch();
 				switch (sym) {
-					// Нажата клавиша вверх.
+					// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° РІРІРµСЂС….
 					case 72: {
 						if (position.Y > 0) {
 							position.Y--;
@@ -320,7 +320,7 @@ void consoleDelay()
 						}
 						break;
 					}
-					// Нажата клавиша вниз.
+					// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° РІРЅРёР·.
 					case 80: {
 						if (position.Y < line - 1) {
 							position.Y++;
@@ -330,7 +330,7 @@ void consoleDelay()
 						}
 						break;
 					}
-					// Нажата клавиша влево.
+					// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° РІР»РµРІРѕ.
 					case 75: {
 						if (position.X > 0)
 							position.X--;
@@ -341,7 +341,7 @@ void consoleDelay()
 						SetConsoleCursorPosition(hConsole, position);
 						break;
 					}
-					// Нажата клавиша вправо.
+					// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° РІРїСЂР°РІРѕ.
 					case 77: {
 						if (position.X < lineSize[position.Y])
 							position.X++;
@@ -358,7 +358,7 @@ void consoleDelay()
 				}
 				break;
 			}
-			// Нажата клавиша Enter.
+			// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° Enter.
 			case 13: {
 				std::string temped = inFile[position.Y].substr(position.X, inFile[position.Y].length());
 				inFile[position.Y].erase(position.X, inFile[position.Y].length());
@@ -375,12 +375,12 @@ void consoleDelay()
 				SetConsoleCursorPosition(hConsole, position);
 				break;
 			}
-			// Нажата клавиша Esc.
+			// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° Esc.
 			case 27: {
 				flag = false;
 				break;
 			}
-			// Нажата клавиша Backspace.
+			// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° Backspace.
 			case 8: {
 				if ((position.X > 0) && (lineSize[position.Y] > 0)) {
 					lineSize[position.Y]--;
@@ -410,7 +410,7 @@ void consoleDelay()
 				SetConsoleCursorPosition(hConsole, position);
 				break;
 			}
-			// Нажата клавиша Tab.
+			// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° Tab.
 			case 9: {
 				std::string temped;
 				ch = 32;
@@ -419,7 +419,7 @@ void consoleDelay()
 				lineSize[position.Y]++;
 				position.X++;
 			}
-			// Нажата клавиша Space.
+			// РќР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° Space.
 			case 32: {
 				std::string temped;
 				temped = (char)ch;
@@ -431,7 +431,7 @@ void consoleDelay()
 				SetConsoleCursorPosition(hConsole, position);
 				break;
 			}
-			// Нажата любая другая клавиша.
+			// РќР°Р¶Р°С‚Р° Р»СЋР±Р°СЏ РґСЂСѓРіР°СЏ РєР»Р°РІРёС€Р°.
 			default: {
 				std::string temped;
 				temped = (char)ch;
@@ -453,7 +453,7 @@ void consoleDelay()
 	}
 }
 
-// Функция для сохранения текста при создании нового файла.
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ С‚РµРєСЃС‚Р° РїСЂРё СЃРѕР·РґР°РЅРёРё РЅРѕРІРѕРіРѕ С„Р°Р№Р»Р°.
 void saveUnsavedText()
 {
 	std::string outputfile;
@@ -481,7 +481,7 @@ void saveUnsavedText()
 	}
 }
 
-// Функция для чтения конфига.
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ С‡С‚РµРЅРёСЏ РєРѕРЅС„РёРіР°.
 void readConfig(std::string &configname)
 {
 	std::ifstream inputSet(configname);	//config file
@@ -507,7 +507,7 @@ void readConfig(std::string &configname)
 	}
 }
 
-// Функция для сохранения текущего конфига.
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ СЃРѕС…СЂР°РЅРµРЅРёСЏ С‚РµРєСѓС‰РµРіРѕ РєРѕРЅС„РёРіР°.
 void saveConfig(std::string &configname)
 {
 	std::ofstream outputSet(configname);	//config file
@@ -516,7 +516,7 @@ void saveConfig(std::string &configname)
 	std::cout << "File was successfully saved." << std::endl;
 }
 
-// Функция для подтверждения действия с учётом текущего конфига настроек.
+// Р¤СѓРЅРєС†РёСЏ РґР»СЏ РїРѕРґС‚РІРµСЂР¶РґРµРЅРёСЏ РґРµР№СЃС‚РІРёСЏ СЃ СѓС‡С‘С‚РѕРј С‚РµРєСѓС‰РµРіРѕ РєРѕРЅС„РёРіР° РЅР°СЃС‚СЂРѕРµРє.
 void confirmAct()
 {
 	auto it = SETTINGS.find("Confirmation of action");
@@ -539,7 +539,7 @@ int main()
 		outMenu();
 		command = inputStrToInt("Enter your command: ", 0);
 		switch (command) {
-			// Выход из программы.
+			// Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹.
 			case 0: {
 				system("cls");
 				confirmAct();
@@ -549,7 +549,7 @@ int main()
 				flag = false;
 				break;
 			}
-			// Создание нового рабочего поля.
+			// РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕРіРѕ СЂР°Р±РѕС‡РµРіРѕ РїРѕР»СЏ.
 			case 1: {
 				std::cin.sync();
 				std::cin.clear();
@@ -567,7 +567,7 @@ int main()
 						tempOut << inFile[i] << std::endl;
 				break;
 			}
-			// Загрузка файла в поле редактирования.
+			// Р—Р°РіСЂСѓР·РєР° С„Р°Р№Р»Р° РІ РїРѕР»Рµ СЂРµРґР°РєС‚РёСЂРѕРІР°РЅРёСЏ.
 			case 2: {
 				system("cls");
 				std::cout << "Input file name (example.txt) [enter 0 for return]: ";
@@ -610,7 +610,7 @@ int main()
 						tempOut << inFile[i] << std::endl;
 				break;
 			}
-			// Сохранение файла из рабочего поля.
+			// РЎРѕС…СЂР°РЅРµРЅРёРµ С„Р°Р№Р»Р° РёР· СЂР°Р±РѕС‡РµРіРѕ РїРѕР»СЏ.
 			case 3: {
 				system("cls");
 				if (!inFile.empty()) {
@@ -628,7 +628,7 @@ int main()
 				system("pause");
 				break;
 			}
-			// Вывод рабочего поля.
+			// Р’С‹РІРѕРґ СЂР°Р±РѕС‡РµРіРѕ РїРѕР»СЏ.
 			case 4: {
 				system("cls");
 				if (!inFile.empty()) {
@@ -641,7 +641,7 @@ int main()
 				}
 				break;
 			}
-			// Запуск компилятора C++.
+			// Р—Р°РїСѓСЃРє РєРѕРјРїРёР»СЏС‚РѕСЂР° C++.
 			case 5: {
 				system("cls");
 				std::ofstream tempOut("CTEtemp.cpp");	//output temp file
@@ -664,7 +664,7 @@ int main()
 				system("pause");
 				break;
 			}
-			// Запуск файла Python.
+			// Р—Р°РїСѓСЃРє С„Р°Р№Р»Р° Python.
 			case 6: {
 				system("cls");
 				std::ofstream tempOut("CTEtemp.py");	//output temp file
@@ -687,7 +687,7 @@ int main()
 				system("pause");
 				break;
 			}
-			// Запуск интерпретатора Python.
+			// Р—Р°РїСѓСЃРє РёРЅС‚РµСЂРїСЂРµС‚Р°С‚РѕСЂР° Python.
 			case 7: {
 				system("cls");
 				std::string path, pyFile;
@@ -700,7 +700,7 @@ int main()
 				system("pause");
 				break;
 			}
-			// Открытие раздела настроек программы.
+			// РћС‚РєСЂС‹С‚РёРµ СЂР°Р·РґРµР»Р° РЅР°СЃС‚СЂРѕРµРє РїСЂРѕРіСЂР°РјРјС‹.
 			case 8: {
 				bool flagSet = true;
 				while (flagSet) {
@@ -708,12 +708,12 @@ int main()
 					outSettings();
 					int commandSet = inputStrToInt("Enter your command: ", 0);
 					switch (commandSet) {
-						// Возвращение в меню.
+						// Р’РѕР·РІСЂР°С‰РµРЅРёРµ РІ РјРµРЅСЋ.
 						case 0: {
 							flagSet = false;
 							break;
 						}
-						// Изменение какой-либо настройки.
+						// РР·РјРµРЅРµРЅРёРµ РєР°РєРѕР№-Р»РёР±Рѕ РЅР°СЃС‚СЂРѕР№РєРё.
 						case 1: {
 							std::string changeSet;
 							std::cout << "Enter number of setting and new value (0 or 1), for example: '2=0', [enter 0 for return]: ";
@@ -735,7 +735,7 @@ int main()
 									it->second = false;
 							break;
 						}
-						// Загрузка настроек из файла.
+						// Р—Р°РіСЂСѓР·РєР° РЅР°СЃС‚СЂРѕРµРє РёР· С„Р°Р№Р»Р°.
 						case 2: {
 							system("cls");
 							std::string nameInSet;
@@ -747,7 +747,7 @@ int main()
 							system("pause");
 							break;
 						}
-						// Сохранение настроек в файл.
+						// РЎРѕС…СЂР°РЅРµРЅРёРµ РЅР°СЃС‚СЂРѕРµРє РІ С„Р°Р№Р».
 						case 3: {
 							system("cls");
 							std::string nameOutSet;
@@ -763,7 +763,7 @@ int main()
 				}
 				break;
 			}
-			// Открытие раздела "О программе".
+			// РћС‚РєСЂС‹С‚РёРµ СЂР°Р·РґРµР»Р° "Рћ РїСЂРѕРіСЂР°РјРјРµ".
 			case 9: {
 				system("cls");
 				outAbout();
@@ -772,7 +772,7 @@ int main()
 			}
 		}
 	}
-	// Удаление временных файлов.
+	// РЈРґР°Р»РµРЅРёРµ РІСЂРµРјРµРЅРЅС‹С… С„Р°Р№Р»РѕРІ.
 	system("del CTEtemp.txt");
 	system("del CTEtemp.cpp");
 	system("del CTEtemp.py");
