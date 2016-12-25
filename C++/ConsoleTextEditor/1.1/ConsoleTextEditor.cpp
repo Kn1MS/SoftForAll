@@ -9,7 +9,7 @@
 #include <map>
 
 
-std::string VERSION = "1.2";
+std::string VERSION = "1.1";
 std::map<std::string, bool> SETTINGS = { { "Confirmation of action", false }, { "Syntax highlighting", false }};
 std::vector<std::string> WORDS_BLUE = { "using", "namespace", "int", "bool", "char", "unsigned", "if", "else", "auto", "return", "while", "for", "void", "do", "break", "try", "throw", "catch", "default", "switch", "case", "sizeof", "const", "true", "false", "nullptr", "string", "vector", "map", "HANDLE", "size_type", "COORD", "WORD", "deque", "queue", "#include", "#define", "#ifndef", "#endif", "#pragma once" }; //11
 std::map<int, std::string> coordColor;
@@ -134,26 +134,6 @@ void consoleOut()
 		else
 			for (unsigned int i = 0; i < inFile.size(); i++)
 				std::cout << inFile[i] << std::endl;
-	}
-	else {
-		std::cout << "Edit field is empty!\n";
-		system("pause");
-	}
-}
-
-// Функция вывода редактируемой строки поля в консоль с учётом конфига настроек.
-void consoleOutLine(unsigned int numLine)
-{
-	if (!inFile.empty()) {
-		auto it = SETTINGS.find("Syntax highlighting");
-		if (it != SETTINGS.end()) {
-			if (it->second)
-				paintKeyWords(numLine);
-			else
-				std::cout << inFile[numLine] << std::endl;
-		}
-		else
-			std::cout << inFile[numLine] << std::endl;
 	}
 	else {
 		std::cout << "Edit field is empty!\n";
@@ -336,12 +316,8 @@ void consoleDelay()
 							position.Y--;
 							if (position.X > lineSize[position.Y])
 								position.X = lineSize[position.Y];
+							SetConsoleCursorPosition(hConsole, position);
 						}
-						else if ((position.Y == 0) && (position.X == 0)) {
-							position.Y = line - 1;
-							position.X = lineSize[line - 1];
-						}
-						SetConsoleCursorPosition(hConsole, position);
 						break;
 					}
 					// Нажата клавиша вниз.
@@ -350,12 +326,8 @@ void consoleDelay()
 							position.Y++;
 							if (position.X > lineSize[position.Y])
 								position.X = lineSize[position.Y];
+							SetConsoleCursorPosition(hConsole, position);
 						}
-						else if ((position.Y == line - 1) && (position.X == lineSize[line - 1])) {
-							position.Y = 0;
-							position.X = 0;
-						}
-						SetConsoleCursorPosition(hConsole, position);
 						break;
 					}
 					// Нажата клавиша влево.
@@ -365,10 +337,6 @@ void consoleDelay()
 						else if (position.Y > 0) {
 							position.Y--;
 							position.X = lineSize[position.Y];
-						}
-						else if ((position.Y == 0) && (position.X == 0)) {
-							position.Y = line - 1;
-							position.X = lineSize[line - 1];
 						}
 						SetConsoleCursorPosition(hConsole, position);
 						break;
@@ -380,10 +348,6 @@ void consoleDelay()
 						else if (position.Y < line - 1) {
 							position.X = 0;
 							position.Y++;
-						}
-						else if ((position.Y == line - 1) && (position.X == lineSize[line - 1])) {
-							position.Y = 0;
-							position.X = 0;
 						}
 						SetConsoleCursorPosition(hConsole, position);
 						break;
@@ -406,16 +370,6 @@ void consoleDelay()
 				position.X = 0;
 				position.Y++;
 				line++;
-				/*int curPos = position.X;
-				for (int i = 0; i <= lineSize[position.Y - 1] + 1; i++) {
-					std::cout << "  ";
-					position.X = i;
-					SetConsoleCursorPosition(hConsole, position);
-				}
-				position.X = 0;
-				SetConsoleCursorPosition(hConsole, position);
-				consoleOutLine(position.Y);
-				position.X = curPos;*/
 				system("cls");
 				consoleOut();
 				SetConsoleCursorPosition(hConsole, position);
@@ -428,7 +382,6 @@ void consoleDelay()
 			}
 			// Нажата клавиша Backspace.
 			case 8: {
-				bool minLine = false;
 				if ((position.X > 0) && (lineSize[position.Y] > 0)) {
 					lineSize[position.Y]--;
 					position.X--;
@@ -451,31 +404,9 @@ void consoleDelay()
 					inFile.erase(itStr);
 					position.Y--;
 					line--;
-					minLine = true;
 				}
-				int curPos = position.X;
-				if (minLine) {
-					/*for (int i = 0; i <= lineSize[position.Y - 1] + 1; i++) {
-						std::cout << "  ";
-						position.X = i;
-						SetConsoleCursorPosition(hConsole, position);
-					}*/
-					system("cls");
-					consoleOut();
-				}
-				else {
-					for (int i = 0; i <= lineSize[position.Y] + 1; i++) {
-						std::cout << "  ";
-						position.X = i;
-						SetConsoleCursorPosition(hConsole, position);
-					}
-					position.X = 0;
-					SetConsoleCursorPosition(hConsole, position);
-					consoleOutLine(position.Y);
-					position.X = curPos;
-				}
-				//system("cls");
-				//consoleOut();
+				system("cls");
+				consoleOut();
 				SetConsoleCursorPosition(hConsole, position);
 				break;
 			}
@@ -495,13 +426,8 @@ void consoleDelay()
 				inFile[position.Y].insert(position.X, temped);
 				lineSize[position.Y]++;
 				position.X++;
-				int curPos = position.X;
-				position.X = 0;
-				SetConsoleCursorPosition(hConsole, position);
-				consoleOutLine(position.Y);
-				position.X = curPos;
-				//system("cls");
-				//consoleOut();
+				system("cls");
+				consoleOut();
 				SetConsoleCursorPosition(hConsole, position);
 				break;
 			}
@@ -512,20 +438,14 @@ void consoleDelay()
 				inFile[position.Y].insert(position.X, temped);
 				lineSize[position.Y]++;
 				position.X++;
-				int curPos = position.X;
-				position.X = 0;
-				SetConsoleCursorPosition(hConsole, position);
-				consoleOutLine(position.Y);
-				position.X = curPos;
-				//system("cls");
-				//consoleOut();
-
-				/*for (unsigned int i = 0; i < position.Y; i++)
-					std::cout << inFile[i] << std::endl;
-				paintKeyWords(position.Y);
-				if (position.Y < line - 1)
-					for (unsigned int i = position.Y + 1; i < inFile.size(); i++)
-						std::cout << inFile[i] << std::endl;*/
+				system("cls");
+				consoleOut();
+				//for (unsigned int i = 0; i < position.Y; i++)
+				//	std::cout << inFile[i] << std::endl;
+				//paintKeyWords(position.Y);
+				//if (position.Y < line - 1)
+				//	for (unsigned int i = position.Y + 1; i < inFile.size(); i++)
+				//		std::cout << inFile[i] << std::endl;
 				SetConsoleCursorPosition(hConsole, position);
 				break;
 			}
@@ -607,9 +527,6 @@ void confirmAct()
 
 int main()
 {
-	COORD maxCon = { 1000, 1000 };
-	SetConsoleScreenBufferSize(hConsole, maxCon);
-
 	std::string inputfile, outputfile, configname = "configCTE.ini";
 	
 	int command;
@@ -670,7 +587,7 @@ int main()
 				std::cin.sync();
 				std::cin.clear();
 				system("cls");
-				line = 0;
+					line = 0;
 				lineSize.clear();
 				inFile.clear();
 				while (!input.eof()) {
@@ -685,13 +602,6 @@ int main()
 					lineSize.push_back(temp.length());
 					inFile.push_back(temp);
 				}
-				int maxLine = 0;
-				for (unsigned int i = 0; i < lineSize.size(); i++)
-					if (maxLine < lineSize[i])
-						maxLine = lineSize[i];
-				maxCon.X = maxLine + 1000;
-				maxCon.Y = line + 1000;
-				SetConsoleScreenBufferSize(hConsole, maxCon);
 				consoleOut();
 				consoleDelay();
 				std::ofstream tempOut("CTEtemp.txt");	//output temp file
