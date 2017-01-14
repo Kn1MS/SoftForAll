@@ -1,0 +1,10 @@
+﻿  main.cpp
+c:\users\василий\documents\visual studio 2015\projects\cardgame\cardgame\main.cpp(18): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+c:\users\василий\documents\visual studio 2015\projects\cardgame\cardgame\main.cpp(81): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\василий\documents\visual studio 2015\projects\cardgame\cardgame\main.cpp(88): warning C4244: аргумент: преобразование "unsigned int" в "float", возможна потеря данных
+c:\users\василий\documents\visual studio 2015\projects\cardgame\cardgame\main.cpp(102): warning C4244: инициализация: преобразование "sf::Int64" в "float", возможна потеря данных
+c:\users\василий\documents\visual studio 2015\projects\cardgame\cardgame\main.cpp(105): warning C4244: +=: преобразование "double" в "float", возможна потеря данных
+c:\users\василий\documents\visual studio 2015\projects\cardgame\cardgame\main.cpp(158): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+c:\users\василий\documents\visual studio 2015\projects\cardgame\cardgame\main.cpp(201): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
+  CardGame.vcxproj -> C:\Users\Василий\Documents\Visual Studio 2015\Projects\CardGame\Debug\CardGame.exe
+  CardGame.vcxproj -> C:\Users\Василий\Documents\Visual Studio 2015\Projects\CardGame\Debug\CardGame.pdb (Partial PDB)
