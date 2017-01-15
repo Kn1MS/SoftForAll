@@ -1,11 +1,11 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include <iostream>
 #include <fstream>
 #include <string>
 #include <map>
 
 
-// Функция проверки правильности вода чисел.
+// Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё РІРѕРґР° С‡РёСЃРµР».
 int inputStrToInt(std::string mes, int command)
 {
 	std::string str;
@@ -59,7 +59,7 @@ int inputStrToInt(std::string mes, int command)
 	return 0;
 }
 
-// Вывод меню.
+// Р’С‹РІРѕРґ РјРµРЅСЋ.
 void outMenu()
 {
 	std::cout << "Dictionary by Vasar v 0.1\n" << std::endl;
@@ -82,14 +82,14 @@ int main()
 		outMenu();
 		command = inputStrToInt("Enter your command: ", 0);
 		switch (command) {
-		// Выход из программы.
+		// Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹.
 		case 0:
 			system("cls");
 			std::cout << "Goodbye, human!" << std::endl;
 			system("pause");
 			flag = false;
 			break;
-		// Добавление нового слова в словарь.
+		// Р”РѕР±Р°РІР»РµРЅРёРµ РЅРѕРІРѕРіРѕ СЃР»РѕРІР° РІ СЃР»РѕРІР°СЂСЊ.
 		case 1: {
 			std::string temp, str1, str2;
 			system("cls");
@@ -111,7 +111,7 @@ int main()
 			system("pause");
 			break;
 		}
-		// Удаление/очистка словаря.
+		// РЈРґР°Р»РµРЅРёРµ/РѕС‡РёСЃС‚РєР° СЃР»РѕРІР°СЂСЏ.
 		case 2: {
 			std::string temp;
 			system("cls");
@@ -146,7 +146,7 @@ int main()
 			system("pause");
 			break;
 		}
-		// Загрузка словаря из файла.
+		// Р—Р°РіСЂСѓР·РєР° СЃР»РѕРІР°СЂСЏ РёР· С„Р°Р№Р»Р°.
 		case 3: {
 			system("cls");
 			std::cout << "Input file name (example.txt) [enter 0 for return]: ";
@@ -179,7 +179,7 @@ int main()
 			system("pause");
 			break;
 		}
-		// Сохранение словаря в файл.
+		// РЎРѕС…СЂР°РЅРµРЅРёРµ СЃР»РѕРІР°СЂСЏ РІ С„Р°Р№Р».
 		case 4: {
 			system("cls");
 			if (!dictionary.empty()) {
@@ -198,7 +198,7 @@ int main()
 			system("pause");
 			break;
 		}
-		// Вывод словаря в консоль.
+		// Р’С‹РІРѕРґ СЃР»РѕРІР°СЂСЏ РІ РєРѕРЅСЃРѕР»СЊ.
 		case 5: {
 			system("cls");
 			if (!dictionary.empty())
