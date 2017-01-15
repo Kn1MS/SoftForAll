@@ -1,4 +1,4 @@
-///файл, отвечающий за главное меню
+п»ї///С„Р°Р№Р», РѕС‚РІРµС‡Р°СЋС‰РёР№ Р·Р° РіР»Р°РІРЅРѕРµ РјРµРЅСЋ
 
 void menu(sf::RenderWindow & window) 
 {
@@ -17,7 +17,7 @@ void menu(sf::RenderWindow & window)
 	menu3.setPosition(150, 150);
 	menuBg.setPosition(150, 0);
 
-	//само меню
+	//СЃР°РјРѕ РјРµРЅСЋ
 	while (isMenu)
 	{
 		menu1.setColor(sf::Color::White);
@@ -41,7 +41,7 @@ void menu(sf::RenderWindow & window)
 
 		if (sf::Mouse::isButtonPressed(sf::Mouse::Left)) {
 			if (menuNum == 1) 
-				isMenu = false;			//если нажали первую кнопку, то выходим из меню 
+				isMenu = false;			//РµСЃР»Рё РЅР°Р¶Р°Р»Рё РїРµСЂРІСѓСЋ РєРЅРѕРїРєСѓ, С‚Рѕ РІС‹С…РѕРґРёРј РёР· РјРµРЅСЋ 
 			if (menuNum == 2) { 
 				window.draw(about); 
 				window.display(); 

@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include <iostream>
 #include <string>
 #include <thread>
@@ -13,7 +13,7 @@
 
 std::map<std::string, bool> tickets;
 
-// Функция проверки правильности вода чисел.
+// Р¤СѓРЅРєС†РёСЏ РїСЂРѕРІРµСЂРєРё РїСЂР°РІРёР»СЊРЅРѕСЃС‚Рё РІРѕРґР° С‡РёСЃРµР».
 int inputStrToInt(std::string mes, int command)
 {
 	std::string str;
@@ -67,7 +67,7 @@ int inputStrToInt(std::string mes, int command)
 	return 0;
 }
 
-// Вывод меню.
+// Р’С‹РІРѕРґ РјРµРЅСЋ.
 void outMenu()
 {
 	std::cout << "Booking-office by Vasar v 0.1\n" << std::endl;
@@ -117,13 +117,13 @@ int main()
 {
 	int command;
 	bool flag = true;
-	// Переменные необходимые для подключения к серверу.
+	// РџРµСЂРµРјРµРЅРЅС‹Рµ РЅРµРѕР±С…РѕРґРёРјС‹Рµ РґР»СЏ РїРѕРґРєР»СЋС‡РµРЅРёСЏ Рє СЃРµСЂРІРµСЂСѓ.
 	WSADATA wsa;
 	int socket_desc, read_size;
 	sockaddr_in server;
 	char message[SIZE];
 	memset(message, 0, SIZE);
-	// Инициализация WinsockAPI.
+	// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ WinsockAPI.
 	std::cout << "Initialising Winsock...\n";
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
 		std::cout << "Failed. Error Code : " << WSAGetLastError() << "\n";
@@ -131,18 +131,18 @@ int main()
 		return 1;
 	}
 	std::cout << "Initialised.\n";
-	// Инициализация самого сокета.
+	// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃР°РјРѕРіРѕ СЃРѕРєРµС‚Р°.
 	if ((socket_desc = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
 		std::cout << "Could not create socket.\n";
 		system("pause");
 		return 2;
 	}
 	std::cout << "Socket created\n";
-	// Задание параметров для сокета.
+	// Р—Р°РґР°РЅРёРµ РїР°СЂР°РјРµС‚СЂРѕРІ РґР»СЏ СЃРѕРєРµС‚Р°.
 	server.sin_addr.s_addr = inet_addr("192.168.0.100"); //192.168.43.204; 172.20.157.87
 	server.sin_family = AF_INET;
 	server.sin_port = htons(9999);
-	// Подключение к серверу.
+	// РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє СЃРµСЂРІРµСЂСѓ.
 	if (connect(socket_desc, (sockaddr*)&server, sizeof(server)) < 0) {
 		std::cout << "Connection to server was failed.\n";
 		system("pause");
@@ -150,7 +150,7 @@ int main()
 	}
 	std::cout << "Connected.\n";
 	std::cout << "Data base is updating. Please, waiting..." << std::endl;
-	// Создание потока для получение первичной информации о билетах.
+	// РЎРѕР·РґР°РЅРёРµ РїРѕС‚РѕРєР° РґР»СЏ РїРѕР»СѓС‡РµРЅРёРµ РїРµСЂРІРёС‡РЅРѕР№ РёРЅС„РѕСЂРјР°С†РёРё Рѕ Р±РёР»РµС‚Р°С….
 	std::thread checking(check, socket_desc);
 	checking.join();
 
@@ -160,18 +160,18 @@ int main()
 		outMenu();
 		command = inputStrToInt("Enter your command: ", 0);
 		switch (command) {
-		// Выход из программы.
+		// Р’С‹С…РѕРґ РёР· РїСЂРѕРіСЂР°РјРјС‹.
 		case 0:
 			system("cls");
 			std::cout << "Goodbye, human!" << std::endl;
 			system("pause");
 			flag = false;
 			break;
-		// Создание нового потока и осуществление процесса покупки билета.
+		// РЎРѕР·РґР°РЅРёРµ РЅРѕРІРѕРіРѕ РїРѕС‚РѕРєР° Рё РѕСЃСѓС‰РµСЃС‚РІР»РµРЅРёРµ РїСЂРѕС†РµСЃСЃР° РїРѕРєСѓРїРєРё Р±РёР»РµС‚Р°.
 		case 1: {
 			system("cls");
 			memset(message, 0, SIZE);
-			// Обновляем данные о билетах.
+			// РћР±РЅРѕРІР»СЏРµРј РґР°РЅРЅС‹Рµ Рѕ Р±РёР»РµС‚Р°С….
 			if (tickets.empty()) {
 				std::cout << "Data base is empty. Please, try to connect later." << std::endl;
 				break;
@@ -183,7 +183,7 @@ int main()
 				std::thread checknow(check, socket_desc);
 				checknow.join();
 			}
-			// Выводим информацию о билетах.
+			// Р’С‹РІРѕРґРёРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ Р±РёР»РµС‚Р°С….
 			for (auto it = tickets.begin(); it != tickets.end(); ++it) {
 				if (it->second == true)
 					std::cout << it->first << " : access" << std::endl;
@@ -192,7 +192,7 @@ int main()
 			}
 			std::cout << std::endl;
 		lab:
-			// Красивости в консоли.
+			// РљСЂР°СЃРёРІРѕСЃС‚Рё РІ РєРѕРЅСЃРѕР»Рё.
 			std::cout << "Choose your seat: ";
 			std::cin.getline(message, SIZE);
 			if (strlen(message) < 1) {
@@ -203,7 +203,7 @@ int main()
 					SetConsoleCursorPosition(h, { 0, buff.dwCursorPosition.Y - 1});
 				goto lab;
 			}
-			// Локальная проверка для того, чтобы лишний раз не отправлять запрос на сервер.
+			// Р›РѕРєР°Р»СЊРЅР°СЏ РїСЂРѕРІРµСЂРєР° РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ Р»РёС€РЅРёР№ СЂР°Р· РЅРµ РѕС‚РїСЂР°РІР»СЏС‚СЊ Р·Р°РїСЂРѕСЃ РЅР° СЃРµСЂРІРµСЂ.
 			bool isFind = false, isAccess = true;
 			std::string comp;
 			comp = message;
@@ -218,7 +218,7 @@ int main()
 					}
 				}
 			}
-			// Отсеиваем "пустые" запросы.
+			// РћС‚СЃРµРёРІР°РµРј "РїСѓСЃС‚С‹Рµ" Р·Р°РїСЂРѕСЃС‹.
 			if (!isFind) {
 				std::cout << "\nError! You tried to buy non-existent ticket." << std::endl;
 				system("pause");
@@ -226,20 +226,20 @@ int main()
 			}
 			if (!isAccess)
 				break;
-			// Отправляем запрос на сервер.
+			// РћС‚РїСЂР°РІР»СЏРµРј Р·Р°РїСЂРѕСЃ РЅР° СЃРµСЂРІРµСЂ.
 			if (send(socket_desc, message, strlen(message), 0) < 0) {
 				std::cout << "\nSend failed.\n";
 				system("pause");
 				flag = false;
 			}
 			memset(message, 0, SIZE);
-			// Получаем ответ от сервера.
+			// РџРѕР»СѓС‡Р°РµРј РѕС‚РІРµС‚ РѕС‚ СЃРµСЂРІРµСЂР°.
 			if ((read_size = recv(socket_desc, message, SIZE, 0)) <= 0) {
 				std::cout << "\nrecv failed\n";
 				system("pause");
 				break;
 			}
-			// Выводим полученную информацию на экран.
+			// Р’С‹РІРѕРґРёРј РїРѕР»СѓС‡РµРЅРЅСѓСЋ РёРЅС„РѕСЂРјР°С†РёСЋ РЅР° СЌРєСЂР°РЅ.
 			std::string temp;
 			temp = message;
 			if (temp == "2") {
@@ -256,7 +256,7 @@ int main()
 			system("pause");
 			break;
 		}
-		// Вывод информации о билетах.
+		// Р’С‹РІРѕРґ РёРЅС„РѕСЂРјР°С†РёРё Рѕ Р±РёР»РµС‚Р°С….
 		case 2: {
 			system("cls");
 			char mes[] = "Tickets";
@@ -265,11 +265,11 @@ int main()
 				system("pause");
 				flag = false;
 			}
-			// Обновляем данные о билетах.
+			// РћР±РЅРѕРІР»СЏРµРј РґР°РЅРЅС‹Рµ Рѕ Р±РёР»РµС‚Р°С….
 			std::cout << "Data base is updating. Please, waiting..." << std::endl;
 			std::thread checknew(check, socket_desc);
 			checknew.join();
-			// Выводим информацию о билетах.
+			// Р’С‹РІРѕРґРёРј РёРЅС„РѕСЂРјР°С†РёСЋ Рѕ Р±РёР»РµС‚Р°С….
 			for (auto it = tickets.begin(); it != tickets.end(); ++it) {
 				if (it->second == true)
 					std::cout << it->first << " : access" << std::endl;
@@ -280,7 +280,7 @@ int main()
 			break;
 		}}
 	}
-	// Закрытие сокета и WinsockAPI.
+	// Р—Р°РєСЂС‹С‚РёРµ СЃРѕРєРµС‚Р° Рё WinsockAPI.
 	shutdown(socket_desc, 1);
 	//closesocket(socket_desc);
 	WSACleanup();
