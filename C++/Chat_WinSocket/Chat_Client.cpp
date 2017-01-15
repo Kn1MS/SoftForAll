@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include <winsock.h>
 #include <iostream>
 #include <thread>
@@ -9,7 +9,7 @@
 
 #define SIZE 2048
 
-// Функция потока для отправки сообщений.
+// Р¤СѓРЅРєС†РёСЏ РїРѕС‚РѕРєР° РґР»СЏ РѕС‚РїСЂР°РІРєРё СЃРѕРѕР±С‰РµРЅРёР№.
 void sendMessage(int socket_desc)
 {
 	char message[SIZE];
@@ -18,10 +18,10 @@ void sendMessage(int socket_desc)
 	while (true) {
 		std::cout << "You: ";
 		std::cin.getline(message, SIZE);
-		// Проверка на отправку пустой строки.
+		// РџСЂРѕРІРµСЂРєР° РЅР° РѕС‚РїСЂР°РІРєСѓ РїСѓСЃС‚РѕР№ СЃС‚СЂРѕРєРё.
 		if (strlen(message) < 1)
 			continue;
-		// Отправка данных на сервер.
+		// РћС‚РїСЂР°РІРєР° РґР°РЅРЅС‹С… РЅР° СЃРµСЂРІРµСЂ.
 		if (send(socket_desc, message, strlen(message), 0) < 0) {
 			std::cout << "\nSend failed!\n";
 			break;
@@ -36,7 +36,7 @@ int main() {
 	char server_reply[SIZE];
 
 	memset(server_reply, 0, SIZE);
-	// Инициализация WinsockAPI.
+	// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ WinsockAPI.
 	std::cout << "Initialising Winsock...\n";
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
 		std::cout << "Failed. Error Code : " << WSAGetLastError() << "\n";
@@ -44,39 +44,39 @@ int main() {
 		return 1;
 	}
 	std::cout << "Initialised.\n";
-	// Инициализация самого сокета.
+	// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃР°РјРѕРіРѕ СЃРѕРєРµС‚Р°.
 	if ((socket_desc = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
 		std::cout << "Could not create socket.\n";
 		system("pause");
 		return 2;
 	}
 	std::cout << "Socket created.\n";
-	// Задание параметров для сокета.
+	// Р—Р°РґР°РЅРёРµ РїР°СЂР°РјРµС‚СЂРѕРІ РґР»СЏ СЃРѕРєРµС‚Р°.
 	server.sin_addr.s_addr = inet_addr("192.168.0.100"); //192.168.43.204; 172.20.157.87
 	server.sin_family = AF_INET;
 	server.sin_port = htons(8888);
-	// Подключение к серверу.
+	// РџРѕРґРєР»СЋС‡РµРЅРёРµ Рє СЃРµСЂРІРµСЂСѓ.
 	if (connect(socket_desc, (sockaddr*)&server, sizeof(server)) < 0) {
 		std::cout << "Connection to server was failed.\n";
 		system("pause");
 		return 3;
 	}
 	std::cout << "Connected to server.\n";
-	// Создание и отсоединение потока для отправки сообщений.
+	// РЎРѕР·РґР°РЅРёРµ Рё РѕС‚СЃРѕРµРґРёРЅРµРЅРёРµ РїРѕС‚РѕРєР° РґР»СЏ РѕС‚РїСЂР°РІРєРё СЃРѕРѕР±С‰РµРЅРёР№.
 	std::thread sending(sendMessage, socket_desc);
 	sending.detach();
-	// В цикле параллельно будем принимать и обрабатывать сообщения от сервера.
+	// Р’ С†РёРєР»Рµ РїР°СЂР°Р»Р»РµР»СЊРЅРѕ Р±СѓРґРµРј РїСЂРёРЅРёРјР°С‚СЊ Рё РѕР±СЂР°Р±Р°С‚С‹РІР°С‚СЊ СЃРѕРѕР±С‰РµРЅРёСЏ РѕС‚ СЃРµСЂРІРµСЂР°.
 	while (true) {
 		memset(server_reply, 0, SIZE);
-		// Проверка на получение данных.
+		// РџСЂРѕРІРµСЂРєР° РЅР° РїРѕР»СѓС‡РµРЅРёРµ РґР°РЅРЅС‹С….
 		if ((read_size = recv(socket_desc, server_reply, SIZE, 0)) <= 0) {
 			std::cout << "\nrecv failed\n";
 			break;
 		}
-		// Проверка на получение пустой строки.
+		// РџСЂРѕРІРµСЂРєР° РЅР° РїРѕР»СѓС‡РµРЅРёРµ РїСѓСЃС‚РѕР№ СЃС‚СЂРѕРєРё.
 		if (strlen(server_reply) < 1)
 			continue;
-		// Красивости в консоли.
+		// РљСЂР°СЃРёРІРѕСЃС‚Рё РІ РєРѕРЅСЃРѕР»Рё.
 		HANDLE h = GetStdHandle(STD_OUTPUT_HANDLE);
 		CONSOLE_SCREEN_BUFFER_INFO buff;
 		GetConsoleScreenBufferInfo(h, &buff);
@@ -87,7 +87,7 @@ int main() {
 
 	std::cout << "\nServer disconected.\n";
 	system("pause");
-	// Закрытие сокета и WinsockAPI.
+	// Р—Р°РєСЂС‹С‚РёРµ СЃРѕРєРµС‚Р° Рё WinsockAPI.
 	shutdown(socket_desc, 1);
 	//closesocket(socket_desc);
 	WSACleanup();

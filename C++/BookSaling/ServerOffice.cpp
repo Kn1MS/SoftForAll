@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include <winsock.h>
 #include <iostream>
 #include <thread>
@@ -19,7 +19,7 @@ std::vector <int> users;
 std::map<std::string, bool> tickets;
 std::mutex mut;
 
-// Функция потока для отправки данных о текущем статусе базы данных с билетами.
+// Р¤СѓРЅРєС†РёСЏ РїРѕС‚РѕРєР° РґР»СЏ РѕС‚РїСЂР°РІРєРё РґР°РЅРЅС‹С… Рѕ С‚РµРєСѓС‰РµРј СЃС‚Р°С‚СѓСЃРµ Р±Р°Р·С‹ РґР°РЅРЅС‹С… СЃ Р±РёР»РµС‚Р°РјРё.
 void sendingData(int client_socket)
 {
 	char reply[SIZE];
@@ -49,7 +49,7 @@ void sendingData(int client_socket)
 	}
 }
 
-// Функция потока для обработки запросов на "покупку" билета.
+// Р¤СѓРЅРєС†РёСЏ РїРѕС‚РѕРєР° РґР»СЏ РѕР±СЂР°Р±РѕС‚РєРё Р·Р°РїСЂРѕСЃРѕРІ РЅР° "РїРѕРєСѓРїРєСѓ" Р±РёР»РµС‚Р°.
 void processing(int client_socket, char *reply)
 {
 	char buffer[SIZE];
@@ -58,7 +58,7 @@ void processing(int client_socket, char *reply)
 	bool isAccess = true, isFind = false;
 	std::string temp;
 	temp = reply;
-	// Блокируем этот участок функции для того, чтобы два потока не пытались одновременно изменить данные в контейнере.
+	// Р‘Р»РѕРєРёСЂСѓРµРј СЌС‚РѕС‚ СѓС‡Р°СЃС‚РѕРє С„СѓРЅРєС†РёРё РґР»СЏ С‚РѕРіРѕ, С‡С‚РѕР±С‹ РґРІР° РїРѕС‚РѕРєР° РЅРµ РїС‹С‚Р°Р»РёСЃСЊ РѕРґРЅРѕРІСЂРµРјРµРЅРЅРѕ РёР·РјРµРЅРёС‚СЊ РґР°РЅРЅС‹Рµ РІ РєРѕРЅС‚РµР№РЅРµСЂРµ.
 	std::lock_guard<std::mutex> locker(mut);
 	for (auto it = tickets.begin(); it != tickets.end(); ++it) {
 		if (temp == it->first) {
@@ -69,7 +69,7 @@ void processing(int client_socket, char *reply)
 				isAccess = false;
 		}	
 	}
-	// Обработав запрос, отправляем ответ.
+	// РћР±СЂР°Р±РѕС‚Р°РІ Р·Р°РїСЂРѕСЃ, РѕС‚РїСЂР°РІР»СЏРµРј РѕС‚РІРµС‚.
 	memset(buffer, 0, SIZE);
 	std::string temped;
 	if ((isAccess) && (isFind)) {
@@ -92,7 +92,7 @@ void processing(int client_socket, char *reply)
 	send(client_socket, buffer, strlen(buffer), 0);
 }
 
-// Функция потока для приёма и обработки запросов от пользователей.
+// Р¤СѓРЅРєС†РёСЏ РїРѕС‚РѕРєР° РґР»СЏ РїСЂРёС‘РјР° Рё РѕР±СЂР°Р±РѕС‚РєРё Р·Р°РїСЂРѕСЃРѕРІ РѕС‚ РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№.
 void adding(int client_socket)
 {
 	char reply[SIZE];
@@ -131,7 +131,7 @@ int main()
 		std::string key = std::to_string(i + 1);
 		tickets.insert((std::pair<std::string, bool>(key, true)));
 	}
-	// Инициализация WinsockAPI.
+	// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ WinsockAPI.
 	std::cout << "Initialising Winsock...\n";
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
 		std::cout << "Failed. Error Code : " << WSAGetLastError() << "\n";
@@ -139,26 +139,26 @@ int main()
 		return 1;
 	}
 	std::cout << "Initialised.\n";
-	// Инициализация самого сокета.
+	// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃР°РјРѕРіРѕ СЃРѕРєРµС‚Р°.
 	if ((socket_desc = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
 		std::cout << "Could not create socket.\n";
 		system("pause");
 		return 2;
 	}
 	std::cout << "Socket created.\n";
-	// Задание параметров сокета.
+	// Р—Р°РґР°РЅРёРµ РїР°СЂР°РјРµС‚СЂРѕРІ СЃРѕРєРµС‚Р°.
 	this_server.sin_family = AF_INET;
 	this_server.sin_addr.S_un.S_addr = INADDR_ANY;
 	this_server.sin_port = htons(9999);
-	// Привязка к определенному адресу и порту.
+	// РџСЂРёРІСЏР·РєР° Рє РѕРїСЂРµРґРµР»РµРЅРЅРѕРјСѓ Р°РґСЂРµСЃСѓ Рё РїРѕСЂС‚Сѓ.
 	if (bind(socket_desc, (sockaddr*)&this_server, sizeof(this_server)) < 0) {
 		std::cout << "Bind failed." << std::endl;
 		return 3;
 	}
-	// Включаем "слушающий" режим для приёма входящих соединений.
+	// Р’РєР»СЋС‡Р°РµРј "СЃР»СѓС€Р°СЋС‰РёР№" СЂРµР¶РёРј РґР»СЏ РїСЂРёС‘РјР° РІС…РѕРґСЏС‰РёС… СЃРѕРµРґРёРЅРµРЅРёР№.
 	listen(socket_desc, 3);
 	std::cout << "Waiting for connection..." << std::endl;
-	// Ждём запроса на соединение.
+	// Р–РґС‘Рј Р·Р°РїСЂРѕСЃР° РЅР° СЃРѕРµРґРёРЅРµРЅРёРµ.
 	while (client_sock = accept(socket_desc, (sockaddr*)&new_client, &c))
 	{
 		std::cout << "\nNew connection!\n";
@@ -171,7 +171,7 @@ int main()
 			break;
 		}
 	}
-	// Закрытие сокета и WinsockAPI.
+	// Р—Р°РєСЂС‹С‚РёРµ СЃРѕРєРµС‚Р° Рё WinsockAPI.
 	//closesocket(socket_desc);
 	shutdown(socket_desc, 1);
 	WSACleanup();

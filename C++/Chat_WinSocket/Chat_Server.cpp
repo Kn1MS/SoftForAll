@@ -1,4 +1,4 @@
-#include "stdafx.h"
+п»ї#include "stdafx.h"
 #include <winsock.h>
 #include <iostream>
 #include <thread>
@@ -13,7 +13,7 @@
 
 std::vector <int> users;
 
-// Функция потока для рассылки сообщений всем подключённым пользователям.
+// Р¤СѓРЅРєС†РёСЏ РїРѕС‚РѕРєР° РґР»СЏ СЂР°СЃСЃС‹Р»РєРё СЃРѕРѕР±С‰РµРЅРёР№ РІСЃРµРј РїРѕРґРєР»СЋС‡С‘РЅРЅС‹Рј РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРј.
 void sending(int client_socket, char *reply)
 {
 	std::cout << "User " << reply << std::endl;
@@ -22,7 +22,7 @@ void sending(int client_socket, char *reply)
 			send(users[i], reply, strlen(reply), 0);
 }
 
-// Функция потока для приёма и обработки данных от присоединённых пользователей.
+// Р¤СѓРЅРєС†РёСЏ РїРѕС‚РѕРєР° РґР»СЏ РїСЂРёС‘РјР° Рё РѕР±СЂР°Р±РѕС‚РєРё РґР°РЅРЅС‹С… РѕС‚ РїСЂРёСЃРѕРµРґРёРЅС‘РЅРЅС‹С… РїРѕР»СЊР·РѕРІР°С‚РµР»РµР№.
 void adding(int client_sock)
 {
 	char reply[SIZE];
@@ -31,7 +31,7 @@ void adding(int client_sock)
 		memset(reply, 0, SIZE);
 		memset(buffer, 0, SIZE);
 		if (recv(client_sock, reply, SIZE, 0) > 0) {
-			// Дополняем принятое сообщение информацией о том, с какого клиента она была получена.
+			// Р”РѕРїРѕР»РЅСЏРµРј РїСЂРёРЅСЏС‚РѕРµ СЃРѕРѕР±С‰РµРЅРёРµ РёРЅС„РѕСЂРјР°С†РёРµР№ Рѕ С‚РѕРј, СЃ РєР°РєРѕРіРѕ РєР»РёРµРЅС‚Р° РѕРЅР° Р±С‹Р»Р° РїРѕР»СѓС‡РµРЅР°.
 			std::string user;
 			user = reply;
 			user.insert(0, std::to_string(client_sock) + " : ");
@@ -41,10 +41,10 @@ void adding(int client_sock)
 				continue;
 			else
 				strcat_s(buffer, user_c);
-			// Рассылаем всем пользователям.
+			// Р Р°СЃСЃС‹Р»Р°РµРј РІСЃРµРј РїРѕР»СЊР·РѕРІР°С‚РµР»СЏРј.
 			sending(client_sock, buffer);
 		}
-		// В случае отключения исключаем данные сокета из контейнера.
+		// Р’ СЃР»СѓС‡Р°Рµ РѕС‚РєР»СЋС‡РµРЅРёСЏ РёСЃРєР»СЋС‡Р°РµРј РґР°РЅРЅС‹Рµ СЃРѕРєРµС‚Р° РёР· РєРѕРЅС‚РµР№РЅРµСЂР°.
 		else {
 			std::cout << "\nUser " << client_sock << " disconnected.\n" << std::endl;
 			for (unsigned int i = 0; i < users.size(); i++)
@@ -60,7 +60,7 @@ int main()
 	sockaddr_in this_server, new_client;
 	WSADATA wsa;
 	int socket_desc, client_sock, c = sizeof(sockaddr_in);
-	// Инициализация WinsockAPI.
+	// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ WinsockAPI.
 	std::cout << "Initialising Winsock...\n";
 	if (WSAStartup(MAKEWORD(2, 2), &wsa) != 0) {
 		std::cout << "Failed. Error Code : " << WSAGetLastError() << "\n";
@@ -68,26 +68,26 @@ int main()
 		return 1;
 	}
 	std::cout << "Initialised.\n";
-	// Инициализация самого сокета.
+	// РРЅРёС†РёР°Р»РёР·Р°С†РёСЏ СЃР°РјРѕРіРѕ СЃРѕРєРµС‚Р°.
 	if ((socket_desc = socket(AF_INET, SOCK_STREAM, 0)) == INVALID_SOCKET) {
 		std::cout << "Could not create socket.\n";
 		system("pause");
 		return 2;
 	}
 	std::cout << "Socket created.\n";
-	// Задание параметров сокета.
+	// Р—Р°РґР°РЅРёРµ РїР°СЂР°РјРµС‚СЂРѕРІ СЃРѕРєРµС‚Р°.
 	this_server.sin_family = AF_INET;
 	this_server.sin_addr.S_un.S_addr = INADDR_ANY;
 	this_server.sin_port = htons(8888);
-	// Привязка к определенному адресу и порту.
+	// РџСЂРёРІСЏР·РєР° Рє РѕРїСЂРµРґРµР»РµРЅРЅРѕРјСѓ Р°РґСЂРµСЃСѓ Рё РїРѕСЂС‚Сѓ.
 	if (bind(socket_desc, (sockaddr*)&this_server, sizeof(this_server)) < 0) {
 		std::cout << "Bind failed." << std::endl;
 		return 3;
 	}
-	// Включаем "слушающий" режим для приёма входящих соединений.
+	// Р’РєР»СЋС‡Р°РµРј "СЃР»СѓС€Р°СЋС‰РёР№" СЂРµР¶РёРј РґР»СЏ РїСЂРёС‘РјР° РІС…РѕРґСЏС‰РёС… СЃРѕРµРґРёРЅРµРЅРёР№.
 	listen(socket_desc, 3);
 	std::cout << "Waiting for connection..." << std::endl;
-	// Ждём запроса на соединение.
+	// Р–РґС‘Рј Р·Р°РїСЂРѕСЃР° РЅР° СЃРѕРµРґРёРЅРµРЅРёРµ.
 	while (client_sock = accept(socket_desc, (sockaddr*)&new_client, &c))
 	{
 		std::cout << "\nNew connection!\n";
@@ -100,7 +100,7 @@ int main()
 			break;
 		}
 	}
-	// Закрытие сокета и WinsockAPI.
+	// Р—Р°РєСЂС‹С‚РёРµ СЃРѕРєРµС‚Р° Рё WinsockAPI.
 	shutdown(socket_desc, 1);
 	//closesocket(socket_desc);
 	WSACleanup();

@@ -1,4 +1,4 @@
-#include <SFML/Graphics.hpp>
+п»ї#include <SFML/Graphics.hpp>
 #include <string>
 #include <ctime>
 #include <vector>
@@ -8,12 +8,12 @@
 #define COUNT 13
 #define ALL 130
 
-///игровая функция
+///РёРіСЂРѕРІР°СЏ С„СѓРЅРєС†РёСЏ
 bool startGame(sf::RenderWindow &window, int &numberLevel, bool &showMainMenu)
 {
-	///блок инициализации окна программы
+	///Р±Р»РѕРє РёРЅРёС†РёР°Р»РёР·Р°С†РёРё РѕРєРЅР° РїСЂРѕРіСЂР°РјРјС‹
 	if (showMainMenu)
-		menu(window);			//вызов меню
+		menu(window);			//РІС‹Р·РѕРІ РјРµРЅСЋ
 
 	srand(time(NULL));
 
@@ -90,22 +90,22 @@ bool startGame(sf::RenderWindow &window, int &numberLevel, bool &showMainMenu)
 		columnsCount[i] = 13;
 	}
 
-	bool isMove = false, isChange = false, isGame = true;	//переменная для щелчка мыши по спрайту
-	float dX = 0;	//корректировка нажатия по х
-	float dY = 0;	//по у
+	bool isMove = false, isChange = false, isGame = true;	//РїРµСЂРµРјРµРЅРЅР°СЏ РґР»СЏ С‰РµР»С‡РєР° РјС‹С€Рё РїРѕ СЃРїСЂР°Р№С‚Сѓ
+	float dX = 0;	//РєРѕСЂСЂРµРєС‚РёСЂРѕРІРєР° РЅР°Р¶Р°С‚РёСЏ РїРѕ С…
+	float dY = 0;	//РїРѕ Сѓ
 	int changeX = 0, columnBot = 0, columnPlayer = 0;
 
-	sf::Clock clock;	//создаем переменную времени, т.о. привязка ко времени(а не загруженности/мощности процессора).
+	sf::Clock clock;	//СЃРѕР·РґР°РµРј РїРµСЂРµРјРµРЅРЅСѓСЋ РІСЂРµРјРµРЅРё, С‚.Рѕ. РїСЂРёРІСЏР·РєР° РєРѕ РІСЂРµРјРµРЅРё(Р° РЅРµ Р·Р°РіСЂСѓР¶РµРЅРЅРѕСЃС‚Рё/РјРѕС‰РЅРѕСЃС‚Рё РїСЂРѕС†РµСЃСЃРѕСЂР°).
 	float CurrentFrame = 0;
 
 	while (window.isOpen()) {
-		float time = clock.getElapsedTime().asMicroseconds();	//дать прошедшее время в микросекундах
-		clock.restart();	//перезагружает время
-		time = time / 800;	//скорость игры
+		float time = clock.getElapsedTime().asMicroseconds();	//РґР°С‚СЊ РїСЂРѕС€РµРґС€РµРµ РІСЂРµРјСЏ РІ РјРёРєСЂРѕСЃРµРєСѓРЅРґР°С…
+		clock.restart();	//РїРµСЂРµР·Р°РіСЂСѓР¶Р°РµС‚ РІСЂРµРјСЏ
+		time = time / 800;	//СЃРєРѕСЂРѕСЃС‚СЊ РёРіСЂС‹
 		CurrentFrame += 0.0025 * time;
 
-		sf::Vector2i pixelPos = sf::Mouse::getPosition(window);	//забираем коорд курсора
-		sf::Vector2f pos = window.mapPixelToCoords(pixelPos);	//переводим их в игровые (уходим от коорд окна)
+		sf::Vector2i pixelPos = sf::Mouse::getPosition(window);	//Р·Р°Р±РёСЂР°РµРј РєРѕРѕСЂРґ РєСѓСЂСЃРѕСЂР°
+		sf::Vector2f pos = window.mapPixelToCoords(pixelPos);	//РїРµСЂРµРІРѕРґРёРј РёС… РІ РёРіСЂРѕРІС‹Рµ (СѓС…РѕРґРёРј РѕС‚ РєРѕРѕСЂРґ РѕРєРЅР°)
 		sf::Vector2f temppos = window.mapPixelToCoords(pixelPos);
 		sf::Vector2f oldPos, newPos;
 
@@ -114,27 +114,27 @@ bool startGame(sf::RenderWindow &window, int &numberLevel, bool &showMainMenu)
 			if (event.type == sf::Event::Closed)
 				window.close();
 
-			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {			//если эскейп, то выходим из игры
+			if (sf::Keyboard::isKeyPressed(sf::Keyboard::Escape)) {			//РµСЃР»Рё СЌСЃРєРµР№Рї, С‚Рѕ РІС‹С…РѕРґРёРј РёР· РёРіСЂС‹
 				showMainMenu = true;
 				return true;
 			}
 
-			if (event.type == sf::Event::MouseButtonPressed) {	//если нажата клавиша мыши
-				if (event.key.code == sf::Mouse::Left) {	//а именно левая
+			if (event.type == sf::Event::MouseButtonPressed) {	//РµСЃР»Рё РЅР°Р¶Р°С‚Р° РєР»Р°РІРёС€Р° РјС‹С€Рё
+				if (event.key.code == sf::Mouse::Left) {	//Р° РёРјРµРЅРЅРѕ Р»РµРІР°СЏ
 					for (int i = 0; i < ALL; i++) {
-						if (deck[i].getGlobalBounds().contains(pos.x, pos.y)) {		//и при этом координата курсора попадает в спрайт
-							dX = pos.x - deck[i].getPosition().x;	//делаем разность между позицией курсора и спрайта для корректировки нажатия
-							dY = pos.y - deck[i].getPosition().y;	//тоже самое по игреку
-							isMove = true;	//можем двигать спрайт
+						if (deck[i].getGlobalBounds().contains(pos.x, pos.y)) {		//Рё РїСЂРё СЌС‚РѕРј РєРѕРѕСЂРґРёРЅР°С‚Р° РєСѓСЂСЃРѕСЂР° РїРѕРїР°РґР°РµС‚ РІ СЃРїСЂР°Р№С‚
+							dX = pos.x - deck[i].getPosition().x;	//РґРµР»Р°РµРј СЂР°Р·РЅРѕСЃС‚СЊ РјРµР¶РґСѓ РїРѕР·РёС†РёРµР№ РєСѓСЂСЃРѕСЂР° Рё СЃРїСЂР°Р№С‚Р° РґР»СЏ РєРѕСЂСЂРµРєС‚РёСЂРѕРІРєРё РЅР°Р¶Р°С‚РёСЏ
+							dY = pos.y - deck[i].getPosition().y;	//С‚РѕР¶Рµ СЃР°РјРѕРµ РїРѕ РёРіСЂРµРєСѓ
+							isMove = true;	//РјРѕР¶РµРј РґРІРёРіР°С‚СЊ СЃРїСЂР°Р№С‚
 							changeX = i;
 							oldPos = deck[i].getPosition();
 						}
 					}
 				}
 			}
-			if (event.type == sf::Event::MouseButtonReleased)	//если отпустили клавишу
-				if (event.key.code == sf::Mouse::Left)	//а именно левую
-					isMove = false;		//то не можем двигать спрайт
+			if (event.type == sf::Event::MouseButtonReleased)	//РµСЃР»Рё РѕС‚РїСѓСЃС‚РёР»Рё РєР»Р°РІРёС€Сѓ
+				if (event.key.code == sf::Mouse::Left)	//Р° РёРјРµРЅРЅРѕ Р»РµРІСѓСЋ
+					isMove = false;		//С‚Рѕ РЅРµ РјРѕР¶РµРј РґРІРёРіР°С‚СЊ СЃРїСЂР°Р№С‚
 
 		}
 		if (isGame) {
@@ -239,20 +239,20 @@ bool startGame(sf::RenderWindow &window, int &numberLevel, bool &showMainMenu)
 	return 0;
 }
 
-///функция перезагружает игру , если это необходимо
+///С„СѓРЅРєС†РёСЏ РїРµСЂРµР·Р°РіСЂСѓР¶Р°РµС‚ РёРіСЂСѓ , РµСЃР»Рё СЌС‚Рѕ РЅРµРѕР±С…РѕРґРёРјРѕ
 void gameRunning(sf::RenderWindow &window, int &numberLevel, bool &showMainMenu) {
-	if (startGame(window, numberLevel, showMainMenu)) {			//принимает с какого уровня начать игру
+	if (startGame(window, numberLevel, showMainMenu)) {			//РїСЂРёРЅРёРјР°РµС‚ СЃ РєР°РєРѕРіРѕ СѓСЂРѕРІРЅСЏ РЅР°С‡Р°С‚СЊ РёРіСЂСѓ
 		gameRunning(window, numberLevel, showMainMenu);
 	}
 }
 
-///основная часть программы
+///РѕСЃРЅРѕРІРЅР°СЏ С‡Р°СЃС‚СЊ РїСЂРѕРіСЂР°РјРјС‹
 int main()
 {
 	sf::RenderWindow window(sf::VideoMode(1280, 920), "CardGame", sf::Style::Close);
 	window.setFramerateLimit(60);
-	int numberLevel = 1;			//номер текущего уровня
+	int numberLevel = 1;			//РЅРѕРјРµСЂ С‚РµРєСѓС‰РµРіРѕ СѓСЂРѕРІРЅСЏ
 	bool showMainMenu = true;
-	gameRunning(window, numberLevel, showMainMenu);			//запускаем процесс игры
+	gameRunning(window, numberLevel, showMainMenu);			//Р·Р°РїСѓСЃРєР°РµРј РїСЂРѕС†РµСЃСЃ РёРіСЂС‹
 	return 0;
 }
