@@ -1,0 +1,215 @@
+  Crad.Windows.Forms.Actions.AlignCenterAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.AlignLeftAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.AlignRightAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.BoldAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.CopyAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.CutAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.DeleteAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.FontStyleAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.ItalicAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.AlignmentBaseAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.ListAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.ViewDetailsAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.PasteAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.Properties.Resources.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.RedoAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.SelectAllAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.UnderlineAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.UndoAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.ViewLargeIconsAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.ViewListAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.ViewSmallIconsAction.resources - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.Images.Action.bmp - Embedded, ContainedInManifestFile, 
+  Crad.Windows.Forms.Actions.Images.ActionList.bmp - Embedded, ContainedInManifestFile, 
+ImageRuntimeVersion: v4.0.30319
+Assembly Crad.Windows.Forms.Actions, Version=1.2.0.0, Culture=neutral, PublicKeyToken=81de48f2c6979a5b: 
+	hash=SHA1, flags=PublicKey
+Assembly System, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089: 
+	hash=None, flags=None
+Assembly System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a: 
+	hash=None, flags=None
+Class Crad.Windows.Forms.Actions.Action: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.ComponentModel.Component
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    System.String Text 'get set' : 
+    Boolean Checked 'get set' : 
+    System.Windows.Forms.CheckState CheckState 'get set' : 
+    Boolean Enabled 'get set' : 
+    System.Drawing.Image Image 'get set' : 
+    Boolean CheckOnClick 'get set' : 
+    System.Windows.Forms.Keys ShortcutKeys 'get set' : 
+    Boolean Visible 'get set' : 
+    System.String ToolTipText 'get set' : 
+  Events:
+    System.ComponentModel.CancelEventHandler BeforeExecute: 
+    System.EventHandler Execute: 
+    System.EventHandler AfterExecute: 
+    System.EventHandler Update: 
+  Methods:
+    add_BeforeExecute(CancelEventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_BeforeExecute(CancelEventHandler): PrivateScope, Public, HideBySig, SpecialName
+    add_Execute(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_Execute(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    add_AfterExecute(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_AfterExecute(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    add_Update(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_Update(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    DoUpdate(): PrivateScope, Public, HideBySig
+    get_Text(): PrivateScope, Public, HideBySig, SpecialName
+    set_Text(String): PrivateScope, Public, HideBySig, SpecialName
+    get_Checked(): PrivateScope, Public, HideBySig, SpecialName
+    set_Checked(Boolean): PrivateScope, Public, HideBySig, SpecialName
+    get_CheckState(): PrivateScope, Public, HideBySig, SpecialName
+    set_CheckState(CheckState): PrivateScope, Public, HideBySig, SpecialName
+    get_Enabled(): PrivateScope, Public, HideBySig, SpecialName
+    set_Enabled(Boolean): PrivateScope, Public, HideBySig, SpecialName
+    get_Image(): PrivateScope, Public, HideBySig, SpecialName
+    set_Image(Image): PrivateScope, Public, HideBySig, SpecialName
+    get_CheckOnClick(): PrivateScope, Public, HideBySig, SpecialName
+    set_CheckOnClick(Boolean): PrivateScope, Public, HideBySig, SpecialName
+    get_ShortcutKeys(): PrivateScope, Public, HideBySig, SpecialName
+    set_ShortcutKeys(Keys): PrivateScope, Public, HideBySig, SpecialName
+    get_Visible(): PrivateScope, Public, HideBySig, SpecialName
+    set_Visible(Boolean): PrivateScope, Public, HideBySig, SpecialName
+    get_ToolTipText(): PrivateScope, Public, HideBySig, SpecialName
+    set_ToolTipText(String): PrivateScope, Public, HideBySig, SpecialName
+    DoExecute(): PrivateScope, Public, HideBySig
+Class Crad.Windows.Forms.Actions.AboutAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.Action
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Interfaces:
+    System.ComponentModel.ISupportInitialize
+  Properties:
+    System.String TextPrefix 'get set' : 
+  Methods:
+    get_TextPrefix(): PrivateScope, Public, HideBySig, SpecialName
+    set_TextPrefix(String): PrivateScope, Public, HideBySig, SpecialName
+Class Crad.Windows.Forms.Actions.ActionCollection: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Collections.ObjectModel.Collection`1[Crad.Windows.Forms.Actions.Action]
+    Void .ctor(Crad.Windows.Forms.Actions.ActionList): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    Crad.Windows.Forms.Actions.ActionList Parent 'get ' : 
+  Methods:
+    get_Parent(): PrivateScope, Public, HideBySig, SpecialName
+Class Crad.Windows.Forms.Actions.RichTextAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.Action
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.AlignmentBaseAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.RichTextAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.AlignCenterAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.AlignmentBaseAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.AlignLeftAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.AlignmentBaseAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.AlignRightAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.AlignmentBaseAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.FontStyleAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.RichTextAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.BoldAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.FontStyleAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.ComponentExtension: AutoLayout, AnsiClass, Class, Public, Abstract, Sealed
+Class Crad.Windows.Forms.Actions.TextBoxBaseAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.Action
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.CopyAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.TextBoxBaseAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.CutAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.TextBoxBaseAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.DeleteAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.TextBoxBaseAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.StandardActionAttribute: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Attribute
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.ItalicAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.FontStyleAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.ListAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.Action
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    System.Windows.Forms.ListView TargetListView 'get set' : 
+  Methods:
+    get_TargetListView(): PrivateScope, Public, HideBySig, SpecialName
+    set_TargetListView(ListView): PrivateScope, Public, HideBySig, SpecialName
+Class Crad.Windows.Forms.Actions.ViewDetailsAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.ListAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.PasteAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.TextBoxBaseAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.RedoAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.RichTextAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.ActionList: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.ComponentModel.Component
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Interfaces:
+    System.ComponentModel.IExtenderProvider
+    System.ComponentModel.ISupportInitialize
+  Properties:
+    System.Windows.Forms.ToolTip ToolTip 'get ' : 
+    Boolean Enabled 'get set' : 
+    Crad.Windows.Forms.Actions.ActionCollection Actions 'get ' : 
+    System.Collections.Generic.Dictionary`2[System.Type,Crad.Windows.Forms.Actions.ActionTargetDescriptionInfo] TypesDescription 'get ' : 
+    System.Windows.Forms.ContainerControl ContainerControl 'get set' : 
+    System.Windows.Forms.Control ActiveControl 'get ' : 
+    System.ComponentModel.ISite Site 'get set' : 
+  Events:
+    System.EventHandler Update: 
+  Methods:
+    get_ToolTip(): PrivateScope, Public, HideBySig, SpecialName
+    add_Update(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    remove_Update(EventHandler): PrivateScope, Public, HideBySig, SpecialName
+    get_Enabled(): PrivateScope, Public, HideBySig, SpecialName
+    set_Enabled(Boolean): PrivateScope, Public, HideBySig, SpecialName
+    get_Actions(): PrivateScope, Public, HideBySig, SpecialName
+    GetAction(Component): PrivateScope, Public, HideBySig
+    SetAction(Component, Action): PrivateScope, Public, HideBySig
+    get_TypesDescription(): PrivateScope, Public, HideBySig, SpecialName
+    BeginInit(): PrivateScope, Public, Final, Virtual, HideBySig, VtableLayoutMask
+    EndInit(): PrivateScope, Public, Final, Virtual, HideBySig, VtableLayoutMask
+    get_ContainerControl(): PrivateScope, Public, HideBySig, SpecialName
+    set_ContainerControl(ContainerControl): PrivateScope, Public, HideBySig, SpecialName
+    get_ActiveControl(): PrivateScope, Public, HideBySig, SpecialName
+    get_Site(): PrivateScope, Public, Virtual, HideBySig, SpecialName
+    set_Site(ISite): PrivateScope, Public, Virtual, HideBySig, SpecialName
+Class Crad.Windows.Forms.Actions.ActionTargetDescriptionInfo: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+    Void .ctor(System.Type): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+  Properties:
+    System.Type TargetType 'get ' : 
+  Methods:
+    get_TargetType(): PrivateScope, Public, HideBySig, SpecialName
+Class Crad.Windows.Forms.Actions.SelectAllAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.TextBoxBaseAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.UnderlineAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.FontStyleAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.UndoAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.TextBoxBaseAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.UpdatablePropertyAttribute: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :System.Attribute
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.ViewLargeIconsAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.ListAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.ViewListAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.ListAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
+Class Crad.Windows.Forms.Actions.ViewSmallIconsAction: AutoLayout, AnsiClass, Class, Public, BeforeFieldInit
+  :Crad.Windows.Forms.Actions.ListAction
+    Void .ctor(): PrivateScope, Public, HideBySig, SpecialName, RTSpecialName
