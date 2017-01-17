@@ -1,0 +1,10 @@
+C:\Users\Василий\Desktop\4753_Calculator+v+1.0\475_Calculator v 1.0\Calculator v 1.0\Calculator\Calculator\bin\Debug\Calculator.exe
+C:\Users\Василий\Desktop\4753_Calculator+v+1.0\475_Calculator v 1.0\Calculator v 1.0\Calculator\Calculator\bin\Debug\Calculator.pdb
+C:\Users\Василий\Desktop\4753_Calculator+v+1.0\475_Calculator v 1.0\Calculator v 1.0\Calculator\Calculator\obj\x86\Debug\Calculator.csprojResolveAssemblyReference.cache
+C:\Users\Василий\Desktop\4753_Calculator+v+1.0\475_Calculator v 1.0\Calculator v 1.0\Calculator\Calculator\obj\x86\Debug\Calculator.Form1.resources
+C:\Users\Василий\Desktop\4753_Calculator+v+1.0\475_Calculator v 1.0\Calculator v 1.0\Calculator\Calculator\obj\x86\Debug\Calculator.Properties.Resources.resources
+C:\Users\Василий\Desktop\4753_Calculator+v+1.0\475_Calculator v 1.0\Calculator v 1.0\Calculator\Calculator\obj\x86\Debug\Calculator.csproj.GenerateResource.Cache
+C:\Users\Василий\Desktop\4753_Calculator+v+1.0\475_Calculator v 1.0\Calculator v 1.0\Calculator\Calculator\obj\x86\Debug\Calculator.exe
+C:\Users\Василий\Desktop\4753_Calculator+v+1.0\475_Calculator v 1.0\Calculator v 1.0\Calculator\Calculator\obj\x86\Debug\Calculator.pdb
+C:\Users\Василий\Documents\Visual Studio 2015\Projects\Education\C#\Calculator v 1.0\Calculator\Calculator\obj\x86\Debug\Calculator.exe
+C:\Users\Василий\Documents\Visual Studio 2015\Projects\Education\C#\Calculator v 1.0\Calculator\Calculator\obj\x86\Debug\Calculator.pdb
