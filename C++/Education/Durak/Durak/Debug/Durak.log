@@ -1,0 +1,4 @@
+﻿  Durak.cpp
+c:\users\василий\documents\visual studio 2015\projects\durak\durak\durak.cpp(144): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
+  Durak.vcxproj -> C:\Users\Василий\Documents\Visual Studio 2015\Projects\Durak\Debug\Durak.exe
+  Durak.vcxproj -> C:\Users\Василий\Documents\Visual Studio 2015\Projects\Durak\Debug\Durak.pdb (Full PDB)
