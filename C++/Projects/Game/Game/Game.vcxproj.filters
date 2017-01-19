@@ -1,0 +1,135 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Файлы исходного кода">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Заголовочные файлы">
+      <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
+      <Extensions>h;hh;hpp;hxx;hm;inl;inc;xsd</Extensions>
+    </Filter>
+    <Filter Include="Файлы ресурсов">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="TinyXML">
+      <UniqueIdentifier>{b44df909-11d1-49c3-ab41-e26176bf6a63}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\Menu">
+      <UniqueIdentifier>{346da477-3a6a-49da-885d-1d96c12ae6ca}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\Textures">
+      <UniqueIdentifier>{f4209165-deb0-4346-a02d-24c37d58e487}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\Sounds">
+      <UniqueIdentifier>{d83623bf-ac8c-4eb9-b7ee-97a2200c1cef}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Файлы ресурсов\Other">
+      <UniqueIdentifier>{04b5bec3-c280-4c39-b9c3-f6283b85aa58}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Файлы исходного кода</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyXML\tinystr.cpp">
+      <Filter>TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyXML\tinyxml.cpp">
+      <Filter>TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyXML\tinyxmlerror.cpp">
+      <Filter>TinyXML</Filter>
+    </ClCompile>
+    <ClCompile Include="TinyXML\tinyxmlparser.cpp">
+      <Filter>TinyXML</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="level.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="lifebar.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="map.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="menu.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="mission.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="view.h">
+      <Filter>Заголовочные файлы</Filter>
+    </ClInclude>
+    <ClInclude Include="TinyXML\tinystr.h">
+      <Filter>TinyXML</Filter>
+    </ClInclude>
+    <ClInclude Include="TinyXML\tinyxml.h">
+      <Filter>TinyXML</Filter>
+    </ClInclude>
+  </ItemGroup>
+  <ItemGroup>
+    <Image Include="Images\Menu\111.png">
+      <Filter>Файлы ресурсов\Menu</Filter>
+    </Image>
+    <Image Include="Images\Menu\222.png">
+      <Filter>Файлы ресурсов\Menu</Filter>
+    </Image>
+    <Image Include="Images\Menu\333.png">
+      <Filter>Файлы ресурсов\Menu</Filter>
+    </Image>
+    <Image Include="Images\Menu\about.png">
+      <Filter>Файлы ресурсов\Menu</Filter>
+    </Image>
+    <Image Include="Images\Menu\Penguins.jpg">
+      <Filter>Файлы ресурсов\Menu</Filter>
+    </Image>
+    <Image Include="Images\Textures\bullet.png">
+      <Filter>Файлы ресурсов\Textures</Filter>
+    </Image>
+    <Image Include="Images\Textures\hero.png">
+      <Filter>Файлы ресурсов\Textures</Filter>
+    </Image>
+    <Image Include="Images\Textures\heroForRotate.png">
+      <Filter>Файлы ресурсов\Textures</Filter>
+    </Image>
+    <Image Include="Images\Textures\life.png">
+      <Filter>Файлы ресурсов\Textures</Filter>
+    </Image>
+    <Image Include="Images\Textures\map.png">
+      <Filter>Файлы ресурсов\Textures</Filter>
+    </Image>
+    <Image Include="Images\Textures\missionbg.jpg">
+      <Filter>Файлы ресурсов\Textures</Filter>
+    </Image>
+    <Image Include="Images\Textures\movingPlatform.png">
+      <Filter>Файлы ресурсов\Textures</Filter>
+    </Image>
+    <Image Include="Images\Textures\shamaich.png">
+      <Filter>Файлы ресурсов\Textures</Filter>
+    </Image>
+    <Image Include="Images\Textures\MilesTailsPrower.gif">
+      <Filter>Файлы ресурсов\Textures</Filter>
+    </Image>
+    <Image Include="Images\Tiny_Chao_Garden_SonicAdv_3_Tile_Sheet.png">
+      <Filter>Файлы ресурсов\Textures</Filter>
+    </Image>
+  </ItemGroup>
+  <ItemGroup>
+    <None Include="Sounds\music.ogg">
+      <Filter>Файлы ресурсов\Sounds</Filter>
+    </None>
+    <None Include="Sounds\shoot.ogg">
+      <Filter>Файлы ресурсов\Sounds</Filter>
+    </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Font Include="Other\CyrilicOld.TTF">
+      <Filter>Файлы ресурсов\Other</Filter>
+    </Font>
+  </ItemGroup>
+</Project>
