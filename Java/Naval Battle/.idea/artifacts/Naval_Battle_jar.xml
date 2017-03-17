@@ -1,8 +1,0 @@
-<component name="ArtifactManager">
-  <artifact type="jar" build-on-make="true" name="Naval Battle:jar">
-    <output-path>$PROJECT_DIR$/out/artifacts/Naval_Battle_jar</output-path>
-    <root id="archive" name="Naval Battle.jar">
-      <element id="module-output" name="Naval Battle" />
-    </root>
-  </artifact>
-</component>
