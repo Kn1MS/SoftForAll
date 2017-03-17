@@ -1,3 +1,3 @@
 Manifest-Version: 1.0
-Main-Class: GameNB
+Main-Class: nbattle.Main
 
