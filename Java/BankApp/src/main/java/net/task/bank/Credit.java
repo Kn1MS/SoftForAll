@@ -1,5 +1,6 @@
 package net.task.bank;
 
+import java.time.Instant;
 import java.util.Date;
 
 
@@ -60,6 +61,18 @@ public class Credit {
 
     public Date getClosingDate() {
         return this.closingDate;
+    }
+
+    public boolean isOverdue(){
+        Instant now = Instant.now();
+        return now.isAfter(this.getClosingDate().toInstant()) &&
+                (this.getPaidSum() < this.getNeedPaid());
+    }
+
+    public boolean isMayBeOverdue() {
+        Instant now = Instant.now();
+        return now.isBefore(this.getClosingDate().toInstant()) &&
+                (this.getPaidSum() < this.getNeedPaid());
     }
 
     @Override
