@@ -9,12 +9,17 @@ import com.vaadin.server.VaadinServlet;
 import com.vaadin.spring.annotation.SpringUI;
 import com.vaadin.ui.*;
 
+import org.springframework.beans.factory.annotation.Autowired;
+
 import java.io.File;
 import java.io.FileOutputStream;
+import java.net.URL;
+import java.net.URLDecoder;
 import java.time.ZoneId;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
+
 
 /**
  * This UI is the application entry point. A UI may either represent a browser window
@@ -26,28 +31,56 @@ import java.util.Optional;
 @SpringUI
 @Theme("mytheme")
 public class MyUI extends UI {
+    @Autowired
+    private Reader dataReader;
+
+    @Autowired
+    private Storage dataStore;
+
+    @Autowired
+    private DBClientsController clientsController;
+
+    @Autowired
+    private DBCreditsController creditsController;
 
     @Override
     protected void init(VaadinRequest vaadinRequest) {
         File fileOutClients = new File("client_out.txt");
         File fileOutCredits = new File("credit_out.txt");
-        File fileOut = new File("DataBase.xls");
+
+        URL urlClients = Thread.currentThread().getContextClassLoader().getResource("clients.omg");
+        URL urlCredits = Thread.currentThread().getContextClassLoader().getResource("credits.omg");
+
+        try {
+            urlClients = new URL(URLDecoder.decode(urlClients.toString(), "utf-8"));
+            urlCredits = new URL(URLDecoder.decode(urlCredits.toString(), "utf-8"));
+        } catch (Exception ex) {
+            ex.printStackTrace();
+        }
+        File fileClients = new File(urlClients.getPath());
+        File fileCredits = new File(urlCredits.getPath());
+
+        dataStore.setClientList(dataReader.readClients(fileClients));
+        dataStore.setCreditList(dataReader.readCredits(fileCredits));
+        dataStore.mergeDuplicate();
+        dataStore.changeClientInfo();
 
         try (FileOutputStream outClients = new FileOutputStream(fileOutClients);
-             FileOutputStream outCredits = new FileOutputStream(fileOutCredits);
-             FileOutputStream outFile = new FileOutputStream(fileOut)
+             FileOutputStream outCredits = new FileOutputStream(fileOutCredits)
         ) {
-
-            DataReader.readClients();
-            DataReader.readCredits();
-
-            DataStore.mergeDuplicate();
-            DataStore.changeClientInfo();
-            DataStore.outDataToTxt(outClients, outCredits);
+            dataStore.outDataToTxt(outClients, outCredits);
         } catch (Exception ex) {
             ex.printStackTrace();
         }
 
+        for (Client client : dataStore.getClientList()) {
+            clientsController.saveNewClient(client);
+        }
+        for (Credit credit : dataStore.getCreditList()) {
+            creditsController.saveNewCredit(credit);
+        }
+
+        ////////////////////////////////////////////////////////////////////////////////////////////////////////////////
         final VerticalLayout layout = new VerticalLayout();
         final HorizontalLayout horizontal = new HorizontalLayout();
         final HorizontalLayout horizontalCredit = new HorizontalLayout();
@@ -58,7 +91,7 @@ public class MyUI extends UI {
         final TextField phone = new TextField("Phone:");
         final TextField passport = new TextField("Passport:");
         final TextField oldPassport = new TextField("Old passport:");
-        final DateField birthDate = new DateField("Birth Date:");
+        final DateField birthday = new DateField("Birthday:");
 
         final TextField amount = new TextField("Amount:");
         final TextField percent = new TextField("Percent:");
@@ -69,85 +102,86 @@ public class MyUI extends UI {
         final TextField tempId = new TextField("-1");
 
         final Grid<Client> outTableClients = new Grid<>();
-        final Grid<Credit> outTableCredit = new Grid<>();
-        final List<Client> outClients = DataStore.clients;
+        final Grid<Credit> outTableCredits = new Grid<>();
 
 
-        outTableCredit.setWidth("1800px");
-        outTableCredit.setHeight("300px");
-        outTableCredit.addColumn(Credit::getId).setCaption("ID").setWidth(100);
-        outTableCredit.addColumn(Credit::getAmount).setCaption("Amount");
-        outTableCredit.addColumn(Credit::getPercent).setCaption("Percent");
-        outTableCredit.addColumn(Credit::getPaidSum).setCaption("Paid Sum");
-        outTableCredit.addColumn(Credit::getNeedPaid).setCaption("Need Paid");
-        outTableCredit.addColumn(Credit::getClosingDate).setCaption("Closing Date");
-        outTableCredit.getEditor().setEnabled(true);
-        outTableCredit.setStyleGenerator(credit -> {
-            if (credit.isOverdue())
-                return "overdue";
-            else if (credit.isMayBeOverdue())
-                return "mayBeOverdue";
-            else
-                return null;
+        final Label copyright = new Label("© All rights reserved, V. V. Vasilyev; " +
+                "Valery Kirichenko (https://t.me/valera5505); 2017");
+
+
+        outTableCredits.setWidth("1800px");
+        outTableCredits.setHeight("250px");
+        outTableCredits.addColumn(Credit::getClientID).setCaption("ID").setWidth(100);
+        outTableCredits.addColumn(Credit::getAmount).setCaption("Amount");
+        outTableCredits.addColumn(Credit::getPercent).setCaption("Percent");
+        outTableCredits.addColumn(Credit::getPaidSum).setCaption("Paid Sum");
+        outTableCredits.addColumn(Credit::getNeedPaid).setCaption("Need Paid");
+        outTableCredits.addColumn(Credit::getClosingDate).setCaption("Closing Date");
+        outTableCredits.getEditor().setEnabled(true);
+        outTableCredits.setStyleGenerator(credit -> {
+            return credit.isOverdue() ? "overdue" :
+                (credit.isMayBeOverdue() ? "mayBeOverdue" : null);
         });
 
         outTableClients.setWidth("1800px");
-        outTableClients.setHeight("400px");
-        outTableClients.addColumn(Client::getId).setCaption("ID").setWidth(100);
-        outTableClients.addColumn(Client::getName).setCaption("Name");
+        outTableClients.setHeight("350px");
+        outTableClients.addColumn(Client::getID).setCaption("ID").setWidth(100);
+        outTableClients.addColumn(Client::getFirstName).setCaption("First Name");
         outTableClients.addColumn(Client::getMiddleName).setCaption("Middle Name");
         outTableClients.addColumn(Client::getLastName).setCaption("Last Name");
         outTableClients.addColumn(Client::getPhone).setCaption("Phone");
         outTableClients.addColumn(Client::getPassport).setCaption("Passport");
         outTableClients.addColumn(Client::getOldPassport).setCaption("Old Passport");
-        outTableClients.addColumn(Client::getBirthDay).setCaption("Birth Date");
+        outTableClients.addColumn(Client::getBirthday).setCaption("Birthday");
         outTableClients.getEditor().setEnabled(true);
         outTableClients.setStyleGenerator(client -> {
-            if (client.isDebtor())
-                return "overdue";
-            else if (client.isMayBeDebtor())
-                return "mayBeOverdue";
-            else
-                return null;
+            Client tempClient = new Client();
+            tempClient.setCredits(creditsController.getByClientID(client.getID()));
+            return tempClient.isDebtor() ? "overdue" :
+                    (tempClient.isMayBeDebtor() ? "mayBeOverdue" : null);
         });
 
         outTableClients.addSelectionListener(event -> {
             Optional<Client> client = event.getFirstSelectedItem();
             client.ifPresent(client1 -> {
-                outTableCredit.setItems(client1.getCredits());
-                tempId.setValue(Integer.toString(client1.getId()));
+                Client tempClient = new Client();
+                tempClient.setCredits(creditsController.getByClientID(client1.getID()));
+                outTableCredits.setItems(tempClient.getCredits());
+                tempId.setValue(Integer.toString(client1.getID()));
             });
         });
 
-        outTableClients.setItems(outClients);
+        outTableClients.setItems(clientsController.getAllClients());
 
-        Button button = new Button("Add client");
+        Button buttonClient = new Button("Add client");
         Button buttonCredit = new Button("Add credit");
-        button.addClickListener(e -> {
+
+        buttonClient.addClickListener(e -> {
             try {
-                if (lastName.getValue().isEmpty() ||
+                if (name.getValue().isEmpty() || lastName.getValue().isEmpty() ||
                         middleName.getValue().isEmpty() || phone.getValue().isEmpty() ||
                         passport.getValue().isEmpty() || oldPassport.getValue().isEmpty())
                     throw new Exception();
                 else {
                     Client client = new Client();
                     Integer maxId = -1;
-                    for (Client clientFor : DataStore.clients)
-                        if (maxId < clientFor.getId() || (maxId == -1)) {
-                            maxId = clientFor.getId();
+                    for (Client clientFor : clientsController.getAllClients())
+                        if (maxId < clientFor.getID() || (maxId == -1)) {
+                            maxId = clientFor.getID();
                         }
                     maxId = (maxId != -1? ++maxId : 0);
-                    client.setId(maxId);
-                    client.setName(name.getValue());
+                    client.setID(maxId);
+                    client.setFirstName(name.getValue());
                     client.setLastName(lastName.getValue());
                     client.setMiddleName(middleName.getValue());
                     client.setPhone(phone.getValue());
                     client.setPassport(Integer.parseInt(passport.getValue()));
-                    client.setBirthday(Date.from(birthDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                    client.setBirthday(Date.from(birthday.getValue().
+                            atStartOfDay(ZoneId.systemDefault()).toInstant()));
                     client.setOldPassport(Integer.parseInt(oldPassport.getValue()));
 
-                    DataStore.clients.add(client);
-                    outTableClients.setItems(DataStore.clients);
+                    clientsController.saveNewClient(client);
+                    outTableClients.setItems(clientsController.getAllClients());
                     Notification.show("Client " + name.getValue() + " was added!");
                 }
             } catch (Exception ex) {
@@ -165,18 +199,21 @@ public class MyUI extends UI {
                 else {
                     Credit credit = new Credit();
 
-                    credit.setId(Integer.parseInt(tempId.getValue()));
+                    credit.setClientId(Integer.parseInt(tempId.getValue()));
                     credit.setAmount(Integer.parseInt(amount.getValue()));
-                    credit.setPercent(percent.getValue());
-                    credit.setPaidSum(Integer.parseInt(paidSum.getValue()));
-                    credit.setNeedPaid(Integer.parseInt(needPaid.getValue()));
-                    credit.setClosingDate(Date.from(closingDate.getValue().atStartOfDay(ZoneId.systemDefault()).toInstant()));
+                    credit.setPercent(Double.parseDouble(percent.getValue()));
+                    credit.setPaidSum(Double.parseDouble(paidSum.getValue()));
+                    credit.setNeedPaid(Double.parseDouble(needPaid.getValue()));
+                    credit.setClosingDate(Date.from(closingDate.getValue().
+                            atStartOfDay(ZoneId.systemDefault()).toInstant()));
 
-                    DataStore.credits.add(credit);
-                    Client client = DataStore.getClient(Integer.parseInt(tempId.getValue()));
+                    creditsController.saveNewCredit(credit);
+
+                    Client client = dataStore.getClient(Integer.parseInt(tempId.getValue()));
                     client.addCredit(credit);
+
                     Optional<Client> clientOptional = Optional.of(client);
-                    clientOptional.ifPresent(client1 -> outTableCredit.setItems(client1.getCredits()));
+                    clientOptional.ifPresent(client1 -> outTableCredits.setItems(client1.getCredits()));
                     Notification.show("Credit for client with id " + tempId.getValue() + " was added!");
                 }
             } catch (Exception ex) {
@@ -185,9 +222,10 @@ public class MyUI extends UI {
             }
         });
 
-        horizontal.addComponents(name, lastName, middleName, phone, passport, oldPassport, birthDate);
+        horizontal.addComponents(name, lastName, middleName, phone, passport, oldPassport, birthday);
         horizontalCredit.addComponents(amount, percent, paidSum, needPaid, closingDate);
-        layout.addComponents(horizontal, button, outTableClients, outTableCredit, horizontalCredit, buttonCredit);
+        layout.addComponents(horizontal, buttonClient, outTableClients, outTableCredits,
+                horizontalCredit, buttonCredit, copyright);
 
         setContent(layout);
     }

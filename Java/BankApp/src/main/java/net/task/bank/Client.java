@@ -7,21 +7,21 @@ import java.util.List;
 
 public class Client {
     //ID в старой системе, Имя, Отчество, Фамилия, телефон, номер паспорта, номер старого паспорта(если есть), дата рождения в формате ISO
-    private int id, passport, oldPassport;
-    private String name, lastName, middleName, phone;
-    private Date birthDay;
+    private int ID, passport, oldPassport;
+    private String firstName, lastName, middleName, phone;
+    private Date birthday;
     public boolean isDeleted = false;
     private List<Credit> credits = new ArrayList<>();
 
     Client() {
     }
 
-    void setId(int id) {
-        this.id = id;
+    void setID(int ID) {
+        this.ID = ID;
     }
 
-    void setName(String name) {
-        this.name = name;
+    void setFirstName(String name) {
+        this.firstName = name;
     }
 
     void setMiddleName(String middleName) {
@@ -45,34 +45,38 @@ public class Client {
     }
 
     void setBirthday(Date birthday) {
-        this.birthDay = birthday;
+        this.birthday = birthday;
     }
 
     void addCredit(Credit credit) {
         this.credits.add(credit);
     }
 
-    public boolean isDebtor(){
-        for(Credit credit : this.credits)
-            if(credit.isOverdue())
+    void setCredits(List<Credit> credits) {
+        this.credits = credits;
+    }
+
+    public boolean isDebtor() {
+        for (Credit credit : this.credits)
+            if (credit.isOverdue())
                 return true;
         return false;
     }
 
     public boolean isMayBeDebtor() {
-        for(Credit credit : this.credits)
-            if(credit.isMayBeOverdue())
+        for (Credit credit : this.credits)
+            if (credit.isMayBeOverdue())
                 return true;
         return false;
     }
 
 
-    public int getId() {
-        return this.id;
+    public int getID() {
+        return this.ID;
     }
 
-    public String getName() {
-        return this.name;
+    public String getFirstName() {
+        return this.firstName;
     }
 
     public String getMiddleName() {
@@ -95,8 +99,8 @@ public class Client {
         return this.phone;
     }
 
-    public Date getBirthDay() {
-        return this.birthDay;
+    public Date getBirthday() {
+        return this.birthday;
     }
 
     public List<Credit> getCredits() {
@@ -107,13 +111,13 @@ public class Client {
     @Override
     public String toString() {
         if (this.getOldPassport() == 0) {
-            return (this.getId() + " " + this.getName() + " " + this.getMiddleName() + " " +
+            return (this.getID() + " " + this.getFirstName() + " " + this.getMiddleName() + " " +
                     this.getLastName() + " " + this.getPhone() + " " + this.getPassport() + " "
-                    + this.getBirthDay());
+                    + this.getBirthday());
         } else {
-            return (this.getId() + " " + this.getName() + " " + this.getMiddleName() + " " +
+            return (this.getID() + " " + this.getFirstName() + " " + this.getMiddleName() + " " +
                     this.getLastName() + " " + this.getPhone() + " " + this.getPassport() + " "
-                    + this.getBirthDay() + " " + this.getOldPassport());
+                    + this.getBirthday() + " " + this.getOldPassport());
         }
     }
 }
