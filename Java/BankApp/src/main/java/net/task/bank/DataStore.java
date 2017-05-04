@@ -1,47 +1,51 @@
 package net.task.bank;
 
+import org.springframework.stereotype.Service;
+
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.time.Instant;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
-public final class DataStore {
-    //Создать класс, который умеет собирать данные из файлов в общую базу данных,
-    //притом дублирующиеся пользователи должны быть объединены, а буква ё должна быть заменена на е. (!)
-    //Не потеряйте кредиты из аккаунтов дублей. Merge клиентов лучше оформить отдельным методом.
-    public static List<Client> clients = new ArrayList<>();
-    public static List<Credit> credits = new ArrayList<>();
-    public static int countNull = 0;
-
-    DataStore() {
-    }
-
+@Service
+public class DataStore implements Storage {
     //Пользователи содержат битые записи. Может быть несколько записей с одинаковым номером паспорта и именем фамилией.
     //Результат повторного заведения одних и тех же пользователей.
     //Может быть несколько пользователей у которых новый паспорт и старый паспорт совпадает
     //(пользователь сменил паспорт, завели новый аккаунт, притом может даже поменяться фамилия).
-    public static void mergeDuplicate() {
+    private List<Client> clients;
+    private List<Credit> credits;
+    public List<Credit> nullPointerCredits = new ArrayList<>();
+    public int countNull = 0;
+
+    DataStore() {
+    }
+
+    DataStore(List<Client> listClients, List<Credit> listCredits) {
+        clients = listClients;
+        credits = listCredits;
+    }
+
+    @Override
+    public void mergeDuplicate() {
         int countDup = 0, countError = 0;
 
         for (Client client1 : clients) {
             for (Client client2 : clients) {
                 if (!client1.equals(client2) && !client1.isDeleted && !client2.isDeleted) {
                     if (client1.getPassport() == client2.getPassport()) {
-                        for (Credit credit2 : credits) {
-                            if (credit2.getId() == client2.getId()) {
-                                credit2.setId(client1.getId());
-                            }
+                        for (Credit credit2 : client2.getCredits()) {
+                            credit2.setClientId(client1.getID());
                         }
                         countDup++;
                         client2.isDeleted = true;
                         break;
                     } else if (client1.getOldPassport() == client2.getPassport()) {
-                        for (Credit credit2 : credits) {
-                            if (credit2.getId() == client2.getId()) {
-                                credit2.setId(client1.getId());
-                            }
+                        for (Credit credit2 : client2.getCredits()) {
+                            credit2.setClientId(client1.getID());
                         }
                         countError++;
                         client2.isDeleted = true;
@@ -63,12 +67,12 @@ public final class DataStore {
 
         List<Credit> newCredits = new ArrayList<>();
         for (Credit credit : credits) {
-            if (DataStore.getNameFromId(credit.getId()) != null)
+            if (getNameFromId(credit.getClientID()) != null)
                 newCredits.add(credit);
             if (now.isAfter(credit.getClosingDate().toInstant()) &&
                     (credit.getPaidSum() < credit.getNeedPaid())) {
-                if (DataStore.getNameFromId(credit.getId()) == null) {
-                    BankHelper.nullPointerCredits.add(credit);
+                if (getNameFromId(credit.getClientID()) == null) {
+                    nullPointerCredits.add(credit);
                     count++;
                     System.out.println(count + ") Found new unpaid credit with null id!");
                 }
@@ -78,11 +82,12 @@ public final class DataStore {
 
         for (Client client : clients)
             for (Credit credit : credits)
-                if (credit.getId() == client.getId())
+                if (credit.getClientID() == client.getID())
                     client.addCredit(credit);
     }
 
-    public static void outDataToTxt(FileOutputStream outClients, FileOutputStream outCredits) throws IOException {
+    @Override
+    public void outDataToTxt(FileOutputStream outClients, FileOutputStream outCredits) throws IOException {
         for (Client client : clients)
             outClients.write((client.toString() + "\n").getBytes());
 
@@ -90,10 +95,11 @@ public final class DataStore {
             outCredits.write((credit.toString() + "\n").getBytes());
     }
 
-    public static void changeClientInfo() {
+    @Override
+    public void changeClientInfo() {
         for (Client client : clients) {
-            if (client.getName().contains("ё"))
-                client.setName(client.getName().replace('ё', 'е'));
+            if (client.getFirstName().contains("ё"))
+                client.setFirstName(client.getFirstName().replace('ё', 'е'));
             if (client.getMiddleName().contains("ё"))
                 client.setMiddleName(client.getMiddleName().replace('ё', 'е'));
             if (client.getLastName().contains("ё"))
@@ -101,12 +107,13 @@ public final class DataStore {
         }
     }
 
-    public static String getNameFromId(int id) {
-        String result = "";
+    @Override
+    public String getNameFromId(int id) {
+        String result = null;
         boolean isFound = false;
         for (Client client : clients)
-            if (id == client.getId()) {
-                result = client.getName() + " " + client.getMiddleName() + " " + client.getLastName();
+            if (id == client.getID()) {
+                result = client.getFirstName() + " " + client.getMiddleName() + " " + client.getLastName();
                 isFound = true;
             }
         if (isFound)
@@ -114,11 +121,32 @@ public final class DataStore {
         return result;
     }
 
-    public static Client getClient(int id) {
+    @Override
+    public Client getClient(int id) {
         Client clientResult = new Client();
         for (Client client : clients)
-            if (id == client.getId())
+            if (id == client.getID())
                 clientResult = client;
         return clientResult;
+    }
+
+    @Override
+    public void setClientList(List<Client> clientList) {
+        clients = clientList;
+    }
+
+    @Override
+    public void setCreditList(List<Credit> creditList) {
+        credits = creditList;
+    }
+
+    @Override
+    public List<Client> getClientList() {
+        return clients;
+    }
+
+    @Override
+    public List<Credit> getCreditList() {
+        return credits;
     }
 }

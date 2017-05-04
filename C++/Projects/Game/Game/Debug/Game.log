@@ -1,37 +1,23 @@
-﻿  main.cpp
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\map.h(37): warning C4244: аргумент: преобразование "time_t" в "unsigned int", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\level.h(59): warning C4244: return: преобразование "double" в "float", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\level.h(140): warning C4244: инициализация: преобразование "double" в "float", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\level.h(141): warning C4244: =: преобразование "float" в "int", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\level.h(177): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\level.h(230): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\level.h(249): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\level.h(250): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\level.h(251): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\level.h(252): warning C4244: =: преобразование "int" в "float", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\lifebar.h(28): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(35): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(39): warning C4244: аргумент: преобразование "int" в "float", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(69): warning C4305: =: усечение из "double" к "float"
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(78): warning C4305: =: усечение из "double" к "float"
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(82): warning C4305: =: усечение из "double" к "float"
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(91): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(154): warning C4305: -=: усечение из "double" к "float"
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(157): warning C4244: +=: преобразование "double" в "float", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(178): warning C4305: =: усечение из "double" к "float"
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(184): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(198): warning C4305: =: усечение из "double" к "float"
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(203): warning C4305: =: усечение из "double" к "float"
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(236): warning C4305: =: усечение из "double" к "float"
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(265): warning C4305: =: усечение из "double" к "float"
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(290): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(366): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(370): warning C4018: <: несоответствие типов со знаком и без знака
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(414): warning C4244: инициализация: преобразование "sf::Int64" в "float", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(475): warning C4244: =: преобразование "float" в "int", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(516): warning C4305: =: усечение из "double" к "float"
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(568): warning C4244: аргумент: преобразование "float" в "int", возможна потеря данных
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\level.h(295): warning C4715: Level::GetObject: значение возвращается не при всех путях выполнения
-c:\users\василий\documents\visual studio 2015\projects\games\game\game\main.cpp(578): warning C4715: startGame: значение возвращается не при всех путях выполнения
-  Game.vcxproj -> C:\Users\Василий\Documents\Visual Studio 2015\Projects\Games\Game\Debug\Game.exe
-  Game.vcxproj -> C:\Users\Василий\Documents\Visual Studio 2015\Projects\Games\Game\Debug\Game.pdb (Partial PDB)
+﻿  World.cpp
+  PlayerInfo.cpp
+  ParallelTask.cpp
+  LoadingState.cpp
+  DialogState.cpp
+  Создание кода...
+  Компиляция...
+  Main.cpp
+  Application.cpp
+  Создание кода...
+  Пропуск... (изменения не обнаружены)
+  TitleState.cpp
+  StateStack.cpp
+  State.cpp
+  SettingsState.cpp
+  Player.cpp
+  PauseState.cpp
+  MenuState.cpp
+  GameState.cpp
+  GameOverState.cpp
+  DataTables.cpp
+  Game.vcxproj -> C:\Users\Василий\ОсобоВажно\Secret Projects\C++\Мои проекты\Игры\Game\Debug\Game.exe
+  Game.vcxproj -> C:\Users\Василий\ОсобоВажно\Secret Projects\C++\Мои проекты\Игры\Game\Debug\Game.pdb (Partial PDB)

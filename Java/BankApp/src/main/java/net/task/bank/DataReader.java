@@ -1,25 +1,16 @@
 package net.task.bank;
 
 import java.io.File;
-import java.net.URL;
-import java.net.URLDecoder;
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 
-public final class DataReader {
-
-    public static void readClients() {
-        URL urlClients = Thread.currentThread().getContextClassLoader().getResource("clients.omg");
-
-        try {
-            urlClients = new URL(URLDecoder.decode(urlClients.toString(), "utf-8"));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        File fileClients = new File(urlClients.getPath());
+public class DataReader implements Reader {
+    public List<Client> readClients(File fileClients) {
+        List<Client> clients = new ArrayList<>();
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -31,8 +22,8 @@ public final class DataReader {
                 String temp = scClients.next();
                 String[] userArr = temp.split("((->>>>)|(---)|(~~~~)|(\\\\\\\\)|(==)|(___))");
                 Client client = new Client();
-                client.setId(Integer.parseInt(userArr[0]));
-                client.setName(userArr[1]);
+                client.setID(Integer.parseInt(userArr[0]));
+                client.setFirstName(userArr[1]);
                 client.setLastName(userArr[2]);
                 client.setMiddleName(userArr[3]);
                 client.setPhone(userArr[4]);
@@ -41,23 +32,17 @@ public final class DataReader {
                 if (userArr.length > 7) {
                     client.setOldPassport(Integer.parseInt(userArr[7]));
                 }
-                DataStore.clients.add(client);
+                clients.add(client);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+        return clients;
     }
 
-    public static void readCredits() {
-        URL urlCredits = Thread.currentThread().getContextClassLoader().getResource("credits.omg");
-
-        try {
-            urlCredits = new URL(URLDecoder.decode(urlCredits.toString(), "utf-8"));
-        } catch (Exception ex) {
-            ex.printStackTrace();
-        }
-
-        File fileCredits = new File(urlCredits.getPath());
+    public List<Credit> readCredits(File fileCredits) {
+        List<Credit> credits = new ArrayList<>();
 
         DateFormat format = new SimpleDateFormat("yyyy-MM-dd");
 
@@ -69,16 +54,18 @@ public final class DataReader {
                 String temp = scCredits.next();
                 String[] userArr = temp.split("((\\|)|,|(\\^)|(___))");
                 Credit credit = new Credit();
-                credit.setId(Integer.parseInt(userArr[0].substring(7)));
+                credit.setClientId(Integer.parseInt(userArr[0].substring(7)));
                 credit.setAmount(Double.parseDouble(userArr[1]));
-                credit.setPercent(userArr[2]);
+                credit.setPercent(Double.parseDouble(userArr[2].substring(0, userArr[2].length() - 2)));
                 credit.setPaidSum(Double.parseDouble(userArr[3]));
                 credit.setNeedPaid(Double.parseDouble(userArr[4]));
                 credit.setClosingDate(format.parse(userArr[5]));
-                DataStore.credits.add(credit);
+                credits.add(credit);
             }
         } catch (Exception ex) {
             ex.printStackTrace();
         }
+
+        return credits;
     }
 }
